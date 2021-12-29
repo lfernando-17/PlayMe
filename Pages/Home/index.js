@@ -22,13 +22,13 @@ export default function Home(){
         });
     }, []);
 
-    const createCards = (data) => {
+    const createCards = (data , key) => {
       return(
-        <View style = {style.card}>
+        <View key = {key} style = {style.card}>
           <Image style={style.tinyLogo} source={{uri : data.thumb ?? '-'}}></Image>
           <Text style = {style.GameTitle}>{handleNome(data.title) ?? '-'}</Text> 
-          <Text style = {style.SalesPrice}>{data.salePrice ?? '-'}</Text>  
-          <Text style = {style.NormalPrice}>${data.normalPrice ?? '-'}</Text>
+          <Text style = {style.SalesPrice}> ${data.salePrice ?? '-'}</Text>  
+          <Text style = {style.NormalPrice}> ${data.normalPrice ?? '-'}</Text>
         </View>
       )
     }
@@ -36,7 +36,7 @@ export default function Home(){
     return (
         <ScrollView contentContainerStyle={styles.scrollView}>
         {loading ? (
-          resp.map((game , i) => createCards(game))) : 
+          resp.map((game ,i) => createCards(game , i))) : 
           (<ActivityIndicator size={60} color={"#424242"} />) 
         }
         </ScrollView>
