@@ -1,40 +1,46 @@
 import { StyleSheet } from 'react-native';
-import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 const styles = StyleSheet.create({
   scrollView :{
     flexDirection:'row',
     flexWrap: 'wrap',
-    backgroundColor:'#E9E9E9'
+    backgroundColor:'#E9E9E9',
+    alignItems : 'center',
+    justifyContent : 'space-evenly',
   },
+
   container : {
-    flex : 1,
-    flexDirection : 'row',
-    flexWrap: 'wrap',
+    backgroundColor:'#E9E9E9',
+    alignItems : 'center'
   },
+
     GameTitle: {
       color : 'black',
       fontSize : 20
     },
+
     NormalPrice: {
       color : 'black',
       fontSize : 10,
       textDecorationLine: 'line-through',
       textDecorationStyle: 'solid'
     },
+
     SalesPrice: {
       color : 'orange',
       fontSize : 18
     },
+
     tinyLogo: {
       width: 110,
       height: 60,
       resizeMode : 'stretch',
       borderRadius : 3
     },
+
     card: {
-      margin : 20,
-      marginTop : 60,
+      margin : 10,
+      marginTop : 30,
       alignItems : 'center',
       justifyContent : 'space-evenly',
       width: 150,
@@ -48,7 +54,6 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.58,
       shadowRadius: 16.00,
-
       elevation: 24,
     },
   });
