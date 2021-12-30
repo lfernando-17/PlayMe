@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scrollView :{
+    marginBottom : '20%',
     flexDirection:'row',
     flexWrap: 'wrap',
     backgroundColor:'#E9E9E9',
@@ -55,6 +56,59 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.58,
       shadowRadius: 16.00,
       elevation: 24,
+    },
+
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22,
+      backgroundColor: 'rgba(0,0,0,0.7)'
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      flexWrap: 'wrap',
+      flexDirection : "row",
+      justifyContent : 'space-evenly',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    button: {
+      borderRadius: 10,
+      padding: 13,
+      marginBottom : 20,
+      elevation: 2,
+      width: '25%',
+      margin : 10 , 
+      alignItems : 'center' , 
+      justifyContent : 'center'
+    },
+    textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center"
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center"
+    },
+    modalOverlay: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'rgba(0,0,0,0.5)'
     },
   });
 
