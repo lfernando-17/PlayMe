@@ -1,4 +1,5 @@
 import Home from "../Pages/Home";
+import Games from "../Pages/Games";
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -17,7 +18,7 @@ export default function Routes(){
             let iconName;
 
             if (route.name === 'Offers') {
-              iconName = focused ? 'timer' : 'timer-outline';
+              iconName = focused ? 'basket' : 'basket-outline';
             } 
             // else if (route.name === 'Settings') {
             //   iconName = focused ? 'ios-list-box' : 'ios-list';
@@ -31,7 +32,7 @@ export default function Routes(){
         })}
       >
         <Tab.Screen name="Offers" component={Home} />
-        {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+        <Tab.Screen name="Games" component={Games} /> 
         </Tab.Navigator>
     </NavigationContainer>
     )

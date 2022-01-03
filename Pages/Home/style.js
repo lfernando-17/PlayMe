@@ -1,6 +1,24 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  selectGame : {
+    marginBottom : 10
+  },
+  storeSelected : {
+    borderRadius: 10,
+    padding: 15,
+    elevation: 2,
+    margin : 20 ,
+    backgroundColor : '#bfbdbb',
+    alignItems : 'center' , 
+    justifyContent : 'center'
+  },
+  loadingView : {
+    flex : 1,
+    backgroundColor:'#E9E9E9',
+    alignItems : 'center',
+    justifyContent : 'center'
+  },
   scrollView :{
     marginBottom : '20%',
     flexDirection:'row',
@@ -12,7 +30,7 @@ const styles = StyleSheet.create({
 
   container : {
     backgroundColor:'#E9E9E9',
-    alignItems : 'center'
+    alignItems : 'center',
   },
 
     GameTitle: {
@@ -41,6 +59,7 @@ const styles = StyleSheet.create({
 
     card: {
       margin : 10,
+      marginLeft : 19,
       marginTop : 30,
       alignItems : 'center',
       justifyContent : 'space-evenly',
