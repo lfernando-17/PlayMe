@@ -2,7 +2,7 @@ import {
   Text, 
   View , 
   ActivityIndicator , 
-  Image , 
+  Image ,
   Linking , 
   FlatList ,
   useWindowDimensions , 
@@ -33,14 +33,18 @@ const OpenURLButton = ({ url, children,deal }) => {
   return (<Pressable style = {styles.storeSelected} onPress={handlePress}><Text>{children}</Text></Pressable>);
 };
 
-const MemoizedList = React.memo(({resp,createCard,header }) => {
+const MemoizedList = React.memo(({resp,createCard,header,window }) => {
   return (
     <FlatList
-    columnWrapperStyle={{ flexWrap: 'wrap', flex: 1, margin : 20  }}
+    removeClippedSubviews = {true}
+    initialNumToRender = {9}
+    showsVerticalScrollIndicator={false}
+    maxToRenderPerBatch = {9}
+    columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 , marginBottom : 10 , justifyContent : 'center' }}
     data={resp}
     renderItem={createCard}
     keyExtractor={item => item.gameID}
-    numColumns={3}
+    numColumns={window.width > 600 ? 3 : 2}
     ListHeaderComponent = {header}
     />
   )
@@ -136,10 +140,10 @@ export default function Home(){
     const Header = () => (
       <View style = {{flex : 1 , alignItems : 'center',flexDirection:'row', justifyContent:'center'}}> 
         <Pressable onPress={()=>{setModalVisible(true);setActionTriggered('Stores')}} style={styles.button}>
-          <Text key ={stores.find(x => x.key === storeSelected).key}>{stores.find(x => x.key === storeSelected).label}</Text>
+          <Text key ={stores.find(x => x.key === storeSelected).key}>Store : {stores.find(x => x.key === storeSelected).label}</Text>
         </Pressable>
         <Pressable onPress={()=>{setModalVisible(true);setActionTriggered('Filter')}} style={styles.button}>
-          <Text>{filters.find(x => x.option == filterSelected).option}</Text>
+          <Text>Filter By : {filters.find(x => x.option == filterSelected).option}</Text>
         </Pressable>
       </View>
     );
@@ -211,8 +215,8 @@ export default function Home(){
           </Modal>
 
         {loading ? (
-          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginBottom : '20%'}}>
-            <MemoizedList resp={resp} createCard={createCards} header={Header}/>
+          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginBottom : '20%', height: '100%'}}>
+            <MemoizedList resp={resp} createCard={createCards} header={Header} window = {window}/>
            </View>
           ) : 
           (<View style={styles.loadingView}><ActivityIndicator size={60} color={"#424242"} /></View>) 

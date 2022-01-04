@@ -20,9 +20,9 @@ export default function Routes(){
             if (route.name === 'Offers') {
               iconName = focused ? 'basket' : 'basket-outline';
             } 
-            // else if (route.name === 'Settings') {
-            //   iconName = focused ? 'ios-list-box' : 'ios-list';
-            // }
+             else if (route.name === 'Games') {
+               iconName = focused ? 'game-controller' : 'game-controller-outline';
+             }
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;

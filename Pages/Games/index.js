@@ -1,22 +1,22 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar,Pressable , Image } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar,Pressable , Image , useWindowDimensions} from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 import apiGames from '../../Services/apiGames';
 import style from './style';
 
 let pagina = 1;
 
-const MemoizedList = React.memo(({resp,createCard,reachEnd}) => {
-
+const MemoizedList = React.memo(({resp,createCard,window}) => {
+  console.log(resp)
   return (
     <FlatList
     data={resp}
-    renderItem={createCard}
-    keyExtractor={item => item.id}
-    numColumns={3}
-    onEndReached={() => {
-      reachEnd("https://api.rawg.io/api/games?key=b6723e46a5c84afda3cc7ff1d38b461a&page="+pagina++);
-    }}
+    renderItem={(data)=>createCard(data,window)}
+    keyExtractor={(item, index) => String(index)}
+    // onEndReached={() => {
+    //   reachEnd("https://api.rawg.io/api/games?key=b6723e46a5c84afda3cc7ff1d38b461a&page="+(pagina++)+"&page_size=12");
+    // }}
     ListFooterComponent={footer}
     />
   )
@@ -40,11 +40,12 @@ const handleNome = (nome) => {
   return (nome?.length > 14 ? nome.substring(0,10) + '...' : nome);
 }
 
-const createCards = (data) => {
+const createCards = (data,window) => {
+  // console.log(data);
   return(
-      <Pressable style = {style.card}  onPress={()=>{}}>   
-        <Image  style = {style.tinyLogo} source={{uri : data.item.background_image ?? '-'}}></Image>
-        <Text  style = {style.GameTitle}>{handleNome(data.item.name) ?? '-'}</Text> 
+      <Pressable style = {style(window).card}  onPress={()=>{}}> 
+        <Text  style = {style.GameTitle}>{data.item.name ?? '-'}</Text>
+        {/* <Image  style = {style.tinyLogo} source={{uri : cover[0]?.url ?? '-'}}></Image> */}
       </Pressable>
   )
 }
@@ -52,36 +53,58 @@ const createCards = (data) => {
 export default function Games() {
 
   const [resp, setResp] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const window = useWindowDimensions();
 
-  const requestAPI = async (link) => {
+  const getCover = async (item) => {
     await apiGames
-    .get(link)
-    .then((response) => {setResp([...resp, ...response.data.results]);})
+    .post("/covers", "fields url; where id="+item.cover+";",
+    {
+      headers: {
+          'Client-ID': 'f7wh9fp8o60qav6ym4znqy8hp4s6h1',
+          'Content-Type': 'text/plain',
+          'Authorization': 'Bearer emcopxz4lpds5uy8w7uq44f7cgjaqm' 
+      }
+    })
+    .then((response) => {
+      item.background  = response.data[0].url;
+    })
+    .catch((err) => {
+      console.error("ops! ocorreu um erro" + err);
+    });
+  }
+
+
+  const requestAPI = async (link,fields,state) => {
+    await apiGames
+    .post(link, fields,
+    {
+      headers: {
+          'Client-ID': 'f7wh9fp8o60qav6ym4znqy8hp4s6h1',
+          'Content-Type': 'text/plain',
+          'Authorization': 'Bearer emcopxz4lpds5uy8w7uq44f7cgjaqm' 
+      }
+    })
+    .then(async(response) => {
+      for await (let item of response.data){
+        await getCover(item)
+      }
+      // state(response.data);
+    //  response.data.forawait(getCover)
+    })
     .catch((err) => {
       console.error("ops! ocorreu um erro" + err);
     });
   }
 
   React.useEffect(() => {
-    requestAPI("/games?key=b6723e46a5c84afda3cc7ff1d38b461a");
+    requestAPI("/games","fields name,cover,summary;sort  rating;limit 3;where cover != null;", setResp)
   }, [])
 
   return (
     <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
-      {loading ? 
-        (
-          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-           <MemoizedList resp={resp} createCard = {createCards} reachEnd={requestAPI}/>
-          </View>
-        )
-          : 
-        (
-          <>
-            <Text>teste</Text>
-          </>
-        )
-      }
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <MemoizedList resp={resp} createCard = {createCards}  window = {window} />
+      </View>
     </SafeAreaView>
   );
 }

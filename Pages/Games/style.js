@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+const styles = (props) =>StyleSheet.create({
 
   tinyLogo: {
     width: 110,
@@ -19,22 +19,21 @@ const styles = StyleSheet.create({
     marginTop : 30,
     alignItems : 'center',
     justifyContent : 'space-evenly',
-    width: 150,
+    width: props.width * 0.9,
     height: 180,
     backgroundColor : 'white',
     borderRadius : 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 12,
+      height: 2
     },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.00,
-    elevation: 24,
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   },
 
 
   });
-
 
   export default styles ;

@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
 
     card: {
       margin : 10,
-      marginLeft : 19,
       marginTop : 30,
       alignItems : 'center',
       justifyContent : 'space-evenly',
@@ -70,11 +69,12 @@ const styles = StyleSheet.create({
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
-        height: 12,
+        height: 3,
       },
-      shadowOpacity: 0.58,
-      shadowRadius: 16.00,
-      elevation: 24,
+      shadowOpacity: 0.27,
+      shadowRadius: 4.65,
+      
+      elevation: 6,
     },
 
     centeredView: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
       padding: 13,
       marginBottom : 20,
       elevation: 2,
-      width: '25%',
+      width: 'auto',
       margin : 10 , 
       alignItems : 'center' , 
       justifyContent : 'center'
