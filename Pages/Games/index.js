@@ -86,8 +86,9 @@ export default function Games() {
     })
     .then(async(response) => {
       for await (let item of response.data){
-        await getCover(item)
+        Promise.all(getCover(item))
       }
+      console.log(response.data)
       // state(response.data);
     //  response.data.forawait(getCover)
     })
