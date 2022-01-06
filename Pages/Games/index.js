@@ -1,16 +1,15 @@
 import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar,Pressable , Image , useWindowDimensions} from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
 import apiGames from '../../Services/apiGames';
-import style from './style';
-
-let pagina = 1;
+import styles from './style';
+import ProgressCircle from 'react-native-progress-circle'
 
 const MemoizedList = React.memo(({resp,createCard,window}) => {
-  console.log(resp)
   return (
     <FlatList
+    contentContainerStyle={{right:5}}
+    showsVerticalScrollIndicator={false}
     data={resp}
     renderItem={(data)=>createCard(data,window)}
     keyExtractor={(item, index) => String(index)}
@@ -41,11 +40,25 @@ const handleNome = (nome) => {
 }
 
 const createCards = (data,window) => {
-  // console.log(data);
   return(
-      <Pressable style = {style(window).card}  onPress={()=>{}}> 
-        <Text  style = {style.GameTitle}>{data.item.name ?? '-'}</Text>
-        {/* <Image  style = {style.tinyLogo} source={{uri : cover[0]?.url ?? '-'}}></Image> */}
+      <Pressable style = {styles.card(window)}  onPress={()=>{}}>
+        <View style = {styles.containerOfAllCard}> 
+          <View style = {styles.containerIcon(window)}>
+            <Image  style={styles.tinyLogo(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image></View> 
+          <View style = {styles.containerContenty}>  
+            <Text  style = {styles.GameTitle}>{data.item.name ?? '-'}</Text> 
+              <ProgressCircle
+              percent={data.item.rating}
+              radius={window.width > 600 ? 50 : 25 }
+              borderWidth={8}
+              color={data.item.rating > 80 ? ("#0bc908") : (data.item.rating > 50 ? "#cfde00" : "#e32609") }
+              shadowColor="#999"
+              bgColor="#fff"
+              >
+                <Text style={{ fontSize: 18 }}>{parseInt(data.item.rating)}</Text>
+              </ProgressCircle>
+          </View>
+        </View> 
       </Pressable>
   )
 }
@@ -54,25 +67,6 @@ export default function Games() {
 
   const [resp, setResp] = React.useState([]);
   const window = useWindowDimensions();
-
-  const getCover = async (item) => {
-    await apiGames
-    .post("/covers", "fields url; where id="+item.cover+";",
-    {
-      headers: {
-          'Client-ID': 'f7wh9fp8o60qav6ym4znqy8hp4s6h1',
-          'Content-Type': 'text/plain',
-          'Authorization': 'Bearer emcopxz4lpds5uy8w7uq44f7cgjaqm' 
-      }
-    })
-    .then((response) => {
-      item.background  = response.data[0].url;
-    })
-    .catch((err) => {
-      console.error("ops! ocorreu um erro" + err);
-    });
-  }
-
 
   const requestAPI = async (link,fields,state) => {
     await apiGames
@@ -84,13 +78,8 @@ export default function Games() {
           'Authorization': 'Bearer emcopxz4lpds5uy8w7uq44f7cgjaqm' 
       }
     })
-    .then(async(response) => {
-      for await (let item of response.data){
-        Promise.all(getCover(item))
-      }
-      console.log(response.data)
-      // state(response.data);
-    //  response.data.forawait(getCover)
+    .then((response) => {
+      state(response.data);
     })
     .catch((err) => {
       console.error("ops! ocorreu um erro" + err);
@@ -98,7 +87,7 @@ export default function Games() {
   }
 
   React.useEffect(() => {
-    requestAPI("/games","fields name,cover,summary;sort  rating;limit 3;where cover != null;", setResp)
+    requestAPI("/games","fields name,cover.url,summary,rating;sort created_at desc;limit 3;where cover != null;where rating != null;", setResp)
   }, [])
 
   return (

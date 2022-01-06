@@ -1,26 +1,40 @@
 import { StyleSheet } from 'react-native';
 
-const styles = (props) =>StyleSheet.create({
-
-  tinyLogo: {
-    width: 110,
-    height: 60,
-    resizeMode : 'stretch',
-    borderRadius : 3
-  }, 
+const styles = StyleSheet.create({
+  containerOfAllCard : {
+    flexDirection : 'row',
+  },
+  containerIcon : window =>( {
+    alignItems : 'center',
+    justifyContent:'center',
+    height : (window.width > 600 ? 180 : 120),
+    width : (window.width > 600 ? 180 : 120) , 
+    marginLeft : 15,
+    marginRight: 10
+  }),
+  containerContenty : {
+    flex : 1 ,
+    alignItems : 'center',
+    justifyContent :'space-evenly'
+  },
+  tinyLogo:  window =>( {
+    width: (window.width > 600 ? 180 : 120),
+    height: (window.width > 600 ? 180 : 120),
+    borderRadius : 20,
+  }), 
   
   GameTitle: {
     color : 'black',
-    fontSize : 20
+    fontSize : 20,
   },
-  card: {
+  card: window => ({
     margin : 10,
     marginLeft : 19,
     marginTop : 30,
     alignItems : 'center',
     justifyContent : 'space-evenly',
-    width: props.width * 0.9,
-    height: 180,
+    width: window.width * 0.9,
+    height: 240,
     backgroundColor : 'white',
     borderRadius : 20,
     shadowColor: "#000",
@@ -31,9 +45,7 @@ const styles = (props) =>StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5
-  },
-
-
+  }),
   });
 
   export default styles ;
