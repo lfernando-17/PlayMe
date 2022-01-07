@@ -5,13 +5,13 @@ import apiGames from '../../Services/apiGames';
 import styles from './style';
 import ProgressCircle from 'react-native-progress-circle'
 
-const MemoizedList = React.memo(({resp,createCard,window}) => {
+const MemoizedList = React.memo(({resp,createCard,window,navigation}) => {
   return (
     <FlatList
     contentContainerStyle={{right:5}}
     showsVerticalScrollIndicator={false}
     data={resp}
-    renderItem={(data)=>createCard(data,window)}
+    renderItem={(data)=>createCard(data,window,{navigation})}
     keyExtractor={(item, index) => String(index)}
     // onEndReached={() => {
     //   reachEnd("https://api.rawg.io/api/games?key=b6723e46a5c84afda3cc7ff1d38b461a&page="+(pagina++)+"&page_size=12");
@@ -39,10 +39,10 @@ const handleNome = (nome) => {
   return (nome?.length > 14 ? nome.substring(0,16) + '...' : nome);
 }
 
-const createCards = (data,window) => {
+const createCards = (data,window,{navigation}) => {
   return(
       <Pressable style = {styles.card(window)}  onPress={()=>{}}>
-        <View style={{position : 'absolute',right : 4,top:5}}>
+        <View style={styles.containerRating(window)}>
         <ProgressCircle
               percent={data.item.rating}
               radius={window.width > 600 ? 40 : 20 }
@@ -51,7 +51,7 @@ const createCards = (data,window) => {
               shadowColor="#999"
               bgColor="#fff"
               >
-                <Text style={{ fontSize: 14 }}>{parseInt(data.item.rating)}</Text>
+                <Text style={window.width > 600 ? 20 : 10 }>{parseInt(data.item.rating)}</Text>
               </ProgressCircle>
           </View>
         <View style = {styles.containerOfAllCard}> 
@@ -59,16 +59,17 @@ const createCards = (data,window) => {
             <Image  style={styles.tinyLogo(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image></View> 
           <View style = {styles.containerContenty}>  
             <Text  style = {styles.GameTitle}>{handleNome(data.item.name ?? '-')}</Text>
+            <Pressable style = {styles.button}  onPress={()=> navigation.navigate('GameFocused',data.item)}>
+              <Text>More Info</Text>
+            </Pressable>
               <Text  style = {styles.Genres}>Genre : {data.item.genres.map(item => item.name + ", ")}</Text> 
-              <Text  style = {styles.Genres}>Platforms : {data.item.platforms.map((item,index) => item.name + ", " )}</Text> 
-          </View>
+              </View>
         </View> 
       </Pressable>
   )
 }
 
-export default function Games() {
-
+export default function Games({navigation}) {
   const [resp, setResp] = React.useState([]);
   const window = useWindowDimensions();
 
@@ -91,13 +92,13 @@ export default function Games() {
   }
 
   React.useEffect(() => {
-    requestAPI("/games","fields name,cover.url,summary,rating,genres.name,platforms.name;sort created_at desc;limit 3;where cover != null;where rating != null;", setResp)
+    requestAPI("/games","fields similar_games.name,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit 3;where cover != null;where rating != null;", setResp)
   }, [])
 
   return (
     <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <MemoizedList resp={resp} createCard = {createCards}  window = {window} />
+        <MemoizedList resp={resp} createCard = {createCards}  window = {window} navigation = {navigation} />
       </View>
     </SafeAreaView>
   );
