@@ -215,7 +215,7 @@ export default function Home(){
           </Modal>
 
         {loading ? (
-          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginBottom : '20%', height: '100%'}}>
+          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginBottom : '20%', height: '100%',paddingBottom:180}}>
             <MemoizedList resp={resp} createCard={createCards} header={Header} window = {window}/>
            </View>
           ) : 
