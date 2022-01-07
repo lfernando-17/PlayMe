@@ -5,17 +5,20 @@ import apiGames from '../../Services/apiGames';
 import styles from './style';
 import ProgressCircle from 'react-native-progress-circle'
 
-const MemoizedList = React.memo(({resp,createCard,window,navigation}) => {
+const MemoizedList = React.memo(({resp,createCard,window,navigation,offset,setOffSet}) => {
   return (
     <FlatList
+    removeClippedSubviews = {true}
+    initialNumToRender = {3}
+    maxToRenderPerBatch = {3}
     contentContainerStyle={{right:5}}
     showsVerticalScrollIndicator={false}
     data={resp}
     renderItem={(data)=>createCard(data,window,{navigation})}
     keyExtractor={(item, index) => String(index)}
-    // onEndReached={() => {
-    //   reachEnd("https://api.rawg.io/api/games?key=b6723e46a5c84afda3cc7ff1d38b461a&page="+(pagina++)+"&page_size=12");
-    // }}
+    onEndReached={() => {
+      setOffSet(offset+3);
+      }}
     ListFooterComponent={footer}
     />
   )
@@ -44,14 +47,14 @@ const createCards = (data,window,{navigation}) => {
       <Pressable style = {styles.card(window)}  onPress={()=>{}}>
         <View style={styles.containerRating(window)}>
         <ProgressCircle
-              percent={data.item.rating}
+              percent={data.item.rating ?? '0'}
               radius={window.width > 600 ? 40 : 20 }
               borderWidth={8}
               color={data.item.rating > 80 ? ("#0bc908") : (data.item.rating > 50 ? "#cfde00" : "#e32609") }
               shadowColor="#999"
               bgColor="#fff"
               >
-                <Text style={window.width > 600 ? 20 : 10 }>{parseInt(data.item.rating)}</Text>
+                <Text style={window.width > 600 ? 20 : 10 }>{parseInt(data.item.rating ?? '')}</Text>
               </ProgressCircle>
           </View>
         <View style = {styles.containerOfAllCard}> 
@@ -60,9 +63,10 @@ const createCards = (data,window,{navigation}) => {
           <View style = {styles.containerContenty}>  
             <Text  style = {styles.GameTitle}>{handleNome(data.item.name ?? '-')}</Text>
             <Pressable style = {styles.button}  onPress={()=> navigation.navigate('GameFocused',data.item)}>
-              <Text>More Info</Text>
+              <Text style={{color: '#1470d9'}}>More Info</Text>
             </Pressable>
-              <Text  style = {styles.Genres}>Genre : {data.item.genres.map(item => item.name + ", ")}</Text> 
+              <Text  style = {styles.Genres}>Genre : {data.item.genres.map((item,index,data) => { return( index + 1 === data.length ? item.name : item.name+ ", " )}) ?? ' - '}</Text>
+              <Text  style = {styles.Genres}>Release Date : {data.item.release_dates[0].human ?? '-'}</Text>  
               </View>
         </View> 
       </Pressable>
@@ -72,7 +76,7 @@ const createCards = (data,window,{navigation}) => {
 export default function Games({navigation}) {
   const [resp, setResp] = React.useState([]);
   const window = useWindowDimensions();
-
+  const [skip,setSkip] = React.useState(0);
   const requestAPI = async (link,fields,state) => {
     await apiGames
     .post(link, fields,
@@ -92,13 +96,13 @@ export default function Games({navigation}) {
   }
 
   React.useEffect(() => {
-    requestAPI("/games","fields similar_games.name,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit 3;where cover != null;where rating != null;", setResp)
-  }, [])
+    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null;", setResp)
+  }, [skip])
 
   return (
     <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <MemoizedList resp={resp} createCard = {createCards}  window = {window} navigation = {navigation} />
+        <MemoizedList setOffSet = {setSkip} offset = {skip} request = {requestAPI} setResp={setResp} resp={resp} createCard = {createCards}  window = {window} navigation = {navigation} />
       </View>
     </SafeAreaView>
   );

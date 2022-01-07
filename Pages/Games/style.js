@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 10,
     padding: 13,
-    marginBottom : 20,
+    marginBottom : 10,
     elevation: 2,
     width: 'auto',
     margin : 10 , 
@@ -40,9 +40,10 @@ const styles = StyleSheet.create({
     borderRadius : 20,
   }), 
   Genres: {
-    color : '#8941d1',
+    color : 'black',
     fontSize : 12,
-    margin : 5
+    margin : 5,
+    textAlign : 'center'
   },
   GameTitle: {
     color : 'black',
