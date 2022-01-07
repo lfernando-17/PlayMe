@@ -36,27 +36,31 @@ const footer = () => {
 }
 
 const handleNome = (nome) => {
-  return (nome?.length > 14 ? nome.substring(0,10) + '...' : nome);
+  return (nome?.length > 14 ? nome.substring(0,16) + '...' : nome);
 }
 
 const createCards = (data,window) => {
   return(
       <Pressable style = {styles.card(window)}  onPress={()=>{}}>
-        <View style = {styles.containerOfAllCard}> 
-          <View style = {styles.containerIcon(window)}>
-            <Image  style={styles.tinyLogo(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image></View> 
-          <View style = {styles.containerContenty}>  
-            <Text  style = {styles.GameTitle}>{data.item.name ?? '-'}</Text> 
-              <ProgressCircle
+        <View style={{position : 'absolute',right : 4,top:5}}>
+        <ProgressCircle
               percent={data.item.rating}
-              radius={window.width > 600 ? 50 : 25 }
+              radius={window.width > 600 ? 40 : 20 }
               borderWidth={8}
               color={data.item.rating > 80 ? ("#0bc908") : (data.item.rating > 50 ? "#cfde00" : "#e32609") }
               shadowColor="#999"
               bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>{parseInt(data.item.rating)}</Text>
+                <Text style={{ fontSize: 14 }}>{parseInt(data.item.rating)}</Text>
               </ProgressCircle>
+          </View>
+        <View style = {styles.containerOfAllCard}> 
+          <View style = {styles.containerIcon(window)}>
+            <Image  style={styles.tinyLogo(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image></View> 
+          <View style = {styles.containerContenty}>  
+            <Text  style = {styles.GameTitle}>{handleNome(data.item.name ?? '-')}</Text>
+              <Text  style = {styles.Genres}>Genre : {data.item.genres.map(item => item.name + ", ")}</Text> 
+              <Text  style = {styles.Genres}>Platforms : {data.item.platforms.map((item,index) => item.name + ", " )}</Text> 
           </View>
         </View> 
       </Pressable>
@@ -87,7 +91,7 @@ export default function Games() {
   }
 
   React.useEffect(() => {
-    requestAPI("/games","fields name,cover.url,summary,rating;sort created_at desc;limit 3;where cover != null;where rating != null;", setResp)
+    requestAPI("/games","fields name,cover.url,summary,rating,genres.name,platforms.name;sort created_at desc;limit 3;where cover != null;where rating != null;", setResp)
   }, [])
 
   return (

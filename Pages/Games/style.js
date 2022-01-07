@@ -15,14 +15,18 @@ const styles = StyleSheet.create({
   containerContenty : {
     flex : 1 ,
     alignItems : 'center',
-    justifyContent :'space-evenly'
+    justifyContent :'space-evenly',
   },
   tinyLogo:  window =>( {
     width: (window.width > 600 ? 180 : 120),
     height: (window.width > 600 ? 180 : 120),
     borderRadius : 20,
   }), 
-  
+  Genres: {
+    color : '#8941d1',
+    fontSize : 10,
+    margin : 5
+  },
   GameTitle: {
     color : 'black',
     fontSize : 20,
