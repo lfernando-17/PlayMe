@@ -1,5 +1,7 @@
 import Home from "../Pages/Home";
 import Games from "../Pages/Games";
+import Giveaways from "../Pages/Giveaways";
+import GiveawayFocused from "../Pages/GiveawayFocused";
 import React from "react";
 import GameFocused from "../Pages/GameFocused";
 import { NavigationContainer } from '@react-navigation/native';
@@ -27,6 +29,10 @@ function Tabs () {
            iconName = focused ? 'game-controller' : 'game-controller-outline';
          }
 
+         else if (route.name === 'Giveaways') {
+          iconName = focused ? 'timer' : 'timer-outline';
+        }
+
         // You can return any component that you like here!
         return <Ionicons name={iconName} size={size} color={color} />;
       },
@@ -35,7 +41,8 @@ function Tabs () {
     })}
   >
     <Tab.Screen name="Offers" component={Home} />
-    <Tab.Screen name="Games" component={Games} /> 
+    <Tab.Screen name="Games" component={Games} />
+    <Tab.Screen name="Giveaways" component={Giveaways} />  
     </Tab.Navigator>)
 }
     return(
@@ -43,6 +50,7 @@ function Tabs () {
         <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' , headerShown: false  }}>
             <Stack.Screen name="Tabs" component={Tabs}/>
             <Stack.Screen name="GameFocused" component={GameFocused}/>
+            <Stack.Screen name="GiveawayFocused" component={GiveawayFocused}/>
           </Stack.Navigator>
     </NavigationContainer>
     )
