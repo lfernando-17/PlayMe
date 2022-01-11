@@ -8,8 +8,6 @@ import style from "./style";
     }
 
 const createCards = (data,{navigation}) => {
-    console.log("AAAAAAAAAAAAAAA")
-    console.log(data) 
     return( 
         <Pressable style={style.card} onPress={()=>navigation.navigate('GiveawayFocused',data.item)}>   
           <Image style = {style.tinyLogo} source={{uri : data.item.thumbnail ?? '-'}}></Image>
