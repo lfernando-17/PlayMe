@@ -2,6 +2,7 @@ import Home from "../Pages/Home";
 import Games from "../Pages/Games";
 import Giveaways from "../Pages/Giveaways";
 import GiveawayFocused from "../Pages/GiveawayFocused";
+import Login from '../Pages/Login'
 import React from "react";
 import GameFocused from "../Pages/GameFocused";
 import { NavigationContainer } from '@react-navigation/native';
@@ -48,6 +49,7 @@ function Tabs () {
     return(
     <NavigationContainer>
         <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' , headerShown: false  }}>
+            <Stack.Screen name="Login" component={Login}/>
             <Stack.Screen name="Tabs" component={Tabs}/>
             <Stack.Screen name="GameFocused" component={GameFocused}/>
             <Stack.Screen name="GiveawayFocused" component={GiveawayFocused}/>
