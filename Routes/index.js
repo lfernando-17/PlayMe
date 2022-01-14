@@ -45,10 +45,10 @@ function Tabs ({route}) {
       tabBarInactiveTintColor: 'gray',
     })}
   >
-    <Tab.Screen name="Profile" children={()=><Profile route={route}/>}/>
     <Tab.Screen name="Offers" component={Home} />
     <Tab.Screen name="Games" component={Games} />
-    <Tab.Screen name="Giveaways" component={Giveaways} />  
+    <Tab.Screen name="Giveaways" component={Giveaways} />
+    <Tab.Screen name="Profile" children={()=><Profile route={route}/>}/>  
     </Tab.Navigator>)
 }
     return(
