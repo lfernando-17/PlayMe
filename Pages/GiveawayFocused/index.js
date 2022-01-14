@@ -9,7 +9,6 @@ import style from './style';
 const OpenURLButton = ({ url, children }) => {
   const handlePress = useCallback(async () => {
     const supported = await Linking.canOpenURL(url);
-    console.log(url);
     if (supported) {
       await Linking.openURL(url);
     } else {

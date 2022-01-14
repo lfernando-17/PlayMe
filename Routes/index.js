@@ -5,6 +5,7 @@ import GiveawayFocused from "../Pages/GiveawayFocused";
 import Login from '../Pages/Login'
 import React from "react";
 import GameFocused from "../Pages/GameFocused";
+import Profile from "../Pages/Profile";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,7 +16,7 @@ const Stack = createStackNavigator();
 
 export default function Routes(){
 
-function Tabs () { 
+function Tabs ({route}) { 
   return (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -33,6 +34,9 @@ function Tabs () {
          else if (route.name === 'Giveaways') {
           iconName = focused ? 'timer' : 'timer-outline';
         }
+        else if (route.name === 'Profile') {
+          iconName = focused ? 'person-circle' : 'person-circle-outline';
+        }
 
         // You can return any component that you like here!
         return <Ionicons name={iconName} size={size} color={color} />;
@@ -41,6 +45,7 @@ function Tabs () {
       tabBarInactiveTintColor: 'gray',
     })}
   >
+    <Tab.Screen name="Profile" children={()=><Profile route={route}/>}/>
     <Tab.Screen name="Offers" component={Home} />
     <Tab.Screen name="Games" component={Games} />
     <Tab.Screen name="Giveaways" component={Giveaways} />  

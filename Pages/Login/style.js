@@ -55,14 +55,13 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center'
     },
-    card : color =>({
+    card :{
         alignItems:'center',
         justifyContent:'center',
         marginVertical : 5,
         marginHorizontal : 10,
-        backgroundColor : color,
-        borderRadius : '30px'
-    }),
+        borderRadius : 30
+    },
     cardIcon : {
         alignItems:'center',
         justifyContent:'center',
