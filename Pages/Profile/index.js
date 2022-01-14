@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as AuthSession from 'expo-auth-session';
 import { useNavigation } from "@react-navigation/native";
 
-export default function Profile({route}){
+export default function Profile({route , navigation}){
 
     const [Profile, setProfile] = useState({})
 
@@ -29,9 +29,26 @@ export default function Profile({route}){
 
     return (
         <View style={{flex:1 , alignItems:'center',justifyContent:'center'}}>
-             <Image  style={{width : 75,height : 75}} source={{uri :Profile.picture}}></Image>
-            <Text>Bem Vindo ! {Profile.name}</Text>
-            <Text>Email :   {Profile.email}</Text>
+            <Text>Perfil Dados da sua Conta</Text>
+            <Image  style={{width : 75,height : 75}} source={{uri :Profile.picture}}></Image>
+            <Text>{Profile.name}</Text>
+
+            <Ionicons name={mail-outline} size={30} color={"white"} />
+            <Text>{Profile.email}</Text>
+
+            <Ionicons name={person-outline} size={30} color={"white"} />
+            <Text>Nome {Profile.given_name}</Text>
+
+            <Ionicons name={information-circle-outline} size={30} color={"white"} />
+            <Text>Sobrenome {Profile.family_name}</Text>
+            
+            <Ionicons name={location-outline} size={30} color={"white"} />
+            <Text>Localidade do Perfil do Usuário : {Profile.locale}</Text>
+
+            <Pressable onPress={()=>navigation.goBack()}>
+                <Ionicons name={power} size={30} color={"white"} />
+                <Text>Desconectar</Text>
+            </Pressable>
         </View>
     )
 }

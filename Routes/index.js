@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 
 export default function Routes(){
 
-function Tabs ({route}) { 
+function Tabs ({route , navigation}) { 
   return (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -48,7 +48,7 @@ function Tabs ({route}) {
     <Tab.Screen name="Offers" component={Home} />
     <Tab.Screen name="Games" component={Games} />
     <Tab.Screen name="Giveaways" component={Giveaways} />
-    <Tab.Screen name="Profile" children={()=><Profile route={route}/>}/>  
+    <Tab.Screen name="Profile" children={()=><Profile navigation={navigation} route={route}/>}/>  
     </Tab.Navigator>)
 }
     return(
