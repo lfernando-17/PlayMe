@@ -16,7 +16,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Profile({route , navigation}){
     const data = route.params.resp
     const wayIn = route.params.wayIn
-    console.log(route)
     const [Profile, setProfile] = useState({})
 
     async function loadProfile(){

@@ -101,7 +101,7 @@ export default function SignUp({navigation}){
                 <Text>Sign Up !</Text>
               </View>
               <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
-                  <Text>Name : </Text>
+                  <Text style={{textAlign:'center'}}>Name : </Text>
                   <Input placeholder = "Name" type = "default" value = 
                   {name} onChange={setname} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
               </View>

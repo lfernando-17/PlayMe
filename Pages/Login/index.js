@@ -3,12 +3,13 @@ import styles from './style';
 import { Text , View , TextInput, Pressable , Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as AuthSession from 'expo-auth-session';
+import * as Facebook from "expo-facebook";
 import { createClient } from '@supabase/supabase-js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
-
+const { FACEBOOK_APP_ID } = process.env
 const supabaseUrl = 'https://euuugeoixisfdpijuaea.supabase.co'
 const supabaseKey = process.env.SUPABASE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey, {
@@ -48,6 +49,40 @@ const Card = ({ logoName , color , size , handleSignIn }) => {
 }
 
 export default function Login({navigation}){
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+     
+const signUpFacebook = async () => {
+    try {
+        await Facebook.initializeAsync({
+            appId: FACEBOOK_APP_ID,
+          });
+        const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile", "email"],
+        });
+        if (type === "success") {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+            `https://graph.facebook.com/me?fields=id,name,first_name,location,last_name,picture.type(large),email&access_token=${token}`
+        );
+        // console.log((await response.json()).name);
+        const data = await response.json();
+        const profile = {
+            email : data.email ?? "",
+            family_name : data.last_name ?? "",
+            given_name : data.first_name ?? "",
+            picture : data.url ?? "",
+            locale : data.location ?? "",
+            name : data.name ?? ""
+        }
+        if(data){ navigation.navigate("Tabs",{resp : profile,wayIn:"facebook"}) }
+        } else {
+        // type === 'cancel'
+        }
+    } catch ({ message }) {
+        alert(`Facebook Login Error: ${message}`);
+    }
+    };
 
 const handleSignIn = async () =>{
 
@@ -96,9 +131,7 @@ const loginAPI = async(email , password) =>{
         navigation.navigate('Tabs',{resp : profile, wayIn:"supabase"})
 }
 
-  const [user, setUser] = useState(null);
-  const [password, setPassword] = useState(null);
-    return (
+ return (
         <View style ={styles.containerAll}>
             <View style = {styles.containerWelcome}> 
                 <Text style={styles.txtWelcome}>Welcome !</Text>
@@ -110,7 +143,7 @@ const loginAPI = async(email , password) =>{
                         <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>    
                             <Text>Email : </Text>
                             <Input placeholder = "Username" type = "default" value = 
-                            {user} onChange={setUser} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
+                            {username} onChange={setUsername} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
                         </View>
                         <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
                             <Text>Password : </Text>
@@ -120,12 +153,12 @@ const loginAPI = async(email , password) =>{
                     </View>
 
                     <View style={styles.containerCards}>
-                        <Card  logoName = "logo-facebook" color = "#4267B2" size = {25}  handleSignIn={handleSignIn} />
+                        <Card  logoName = "logo-facebook" color = "#4267B2" size = {25}  handleSignIn={signUpFacebook} />
                         <Card  logoName = "logo-google" color = "#db3236" size = {25}  handleSignIn={handleSignIn} />
                         <Card  logoName = "logo-twitter" color = "#1DA1F2" size = {25}  handleSignIn={handleSignIn}/>
                     </View>
 
-                    <Pressable style = {styles.pressableLogin} onPress={()=>loginAPI(user,password)}>  
+                    <Pressable style = {styles.pressableLogin} onPress={()=>loginAPI(username,password)}>  
                         <Text style={{fontSize:17}}>Sign in</Text>   
                     </Pressable>
 
