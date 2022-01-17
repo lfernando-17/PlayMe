@@ -2,7 +2,9 @@ import Home from "../Pages/Home";
 import Games from "../Pages/Games";
 import Giveaways from "../Pages/Giveaways";
 import GiveawayFocused from "../Pages/GiveawayFocused";
+import SuccessPage from "../Pages/SuccessPage"
 import Login from '../Pages/Login'
+import SignUp from '../Pages/SignUp'
 import React from "react";
 import GameFocused from "../Pages/GameFocused";
 import Profile from "../Pages/Profile";
@@ -55,6 +57,8 @@ function Tabs ({route , navigation}) {
     <NavigationContainer>
         <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' , headerShown: false  }}>
             <Stack.Screen name="Login" component={Login}/>
+            <Stack.Screen name="SignUp" component={SignUp}/>
+            <Stack.Screen name="SuccessPage" component={SuccessPage}/>
             <Stack.Screen name="Tabs" component={Tabs}/>
             <Stack.Screen name="GameFocused" component={GameFocused}/>
             <Stack.Screen name="GiveawayFocused" component={GiveawayFocused}/>

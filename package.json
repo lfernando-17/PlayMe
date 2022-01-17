@@ -10,15 +10,18 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.15",
     "@react-native-picker/picker": "^2.2.1",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
+    "@supabase/supabase-js": "^1.29.1",
     "axios": "^0.24.0",
     "babel-plugin-inline-dotenv": "^1.6.0",
     "dotenv": "^11.0.0",
     "expo": "~44.0.0",
     "expo-auth-session": "~3.5.0",
+    "expo-localization": "~12.0.0",
     "expo-random": "~12.1.1",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",

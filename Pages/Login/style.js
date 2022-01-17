@@ -52,8 +52,9 @@ const styles = StyleSheet.create({
     input : {
         flexDirection:'row',
         marginVertical:10,
+        marginLeft:20,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
     },
     card :{
         alignItems:'center',
