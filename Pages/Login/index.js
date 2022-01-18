@@ -4,12 +4,14 @@ import { Text , View , TextInput, Pressable , Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as AuthSession from 'expo-auth-session';
 import * as Facebook from "expo-facebook";
+import * as Localization from 'expo-localization';
 import { createClient } from '@supabase/supabase-js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
 const { FACEBOOK_APP_ID } = process.env
+
 const supabaseUrl = 'https://euuugeoixisfdpijuaea.supabase.co'
 const supabaseKey = process.env.SUPABASE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey, {
@@ -25,7 +27,8 @@ const Input = ({placeholder , type , value , onChange , stylesInput }) => {
     return (
     <View style={styles.input}>
         <Ionicons name={placeholder =='Username'?'people-outline' : 'lock-closed-outline'} size={20} color={"black"} />
-    <TextInput
+        <TextInput
+        placeholderTextColor={'#9c9c9c'}
         secureTextEntry={ placeholder =='Username'? false : true}
         style={stylesInput}
         onChangeText={onChange}
@@ -51,14 +54,14 @@ const Card = ({ logoName , color , size , handleSignIn }) => {
 export default function Login({navigation}){
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-     
+
 const signUpFacebook = async () => {
     try {
         await Facebook.initializeAsync({
             appId: FACEBOOK_APP_ID,
           });
         const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile", "email"],
+        permissions: ["public_profile", "email","user_location"],
         });
         if (type === "success") {
         // Get the user's name using Facebook's Graph API
@@ -71,8 +74,8 @@ const signUpFacebook = async () => {
             email : data.email ?? "",
             family_name : data.last_name ?? "",
             given_name : data.first_name ?? "",
-            picture : data.url ?? "",
-            locale : data.location ?? "",
+            picture : data.picture.data.url ?? "",
+            locale : data.location ?? Localization.locale,
             name : data.name ?? ""
         }
         if(data){ navigation.navigate("Tabs",{resp : profile,wayIn:"facebook"}) }
@@ -155,7 +158,7 @@ const loginAPI = async(email , password) =>{
                     <View style={styles.containerCards}>
                         <Card  logoName = "logo-facebook" color = "#4267B2" size = {25}  handleSignIn={signUpFacebook} />
                         <Card  logoName = "logo-google" color = "#db3236" size = {25}  handleSignIn={handleSignIn} />
-                        <Card  logoName = "logo-twitter" color = "#1DA1F2" size = {25}  handleSignIn={handleSignIn}/>
+                        {/* <Card  logoName = "logo-twitter" color = "#1DA1F2" size = {25}  handleSignIn={signUpTwitter}/> */}
                     </View>
 
                     <Pressable style = {styles.pressableLogin} onPress={()=>loginAPI(username,password)}>  

@@ -25,7 +25,7 @@ export default function Profile({route , navigation}){
                 const userInfo = await response.json()
                 setProfile(userInfo);
                 break;
-            case 'supabase' : 
+            default : 
                 setProfile(data)
                 break;  
         }
@@ -43,7 +43,7 @@ export default function Profile({route , navigation}){
                 <Text>Dados da sua conta</Text>
             </View>
             
-            <Image  style={{width : 100,height : 100 , marginTop:60,borderRadius:10,overflow: "hidden",borderWidth: 5,borderColor: "#059384"}} source={{uri :wayIn =="google" ? Profile.picture :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}}></Image>
+            <Image  style={{width : 100,height : 100 , marginTop:60,borderRadius:10,overflow: "hidden",borderWidth: 5,borderColor: "#059384"}} source={{uri :wayIn !="supabase" ? Profile.picture :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}}></Image>
             <Text style={{marginTop:20,fontSize:30}}>{Profile.name}</Text>
             
             <View style={{flexDirection:'row' , alignItems:'center',justifyContent:'center' , marginTop:5}}>

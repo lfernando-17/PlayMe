@@ -55,7 +55,7 @@ function Tabs ({route , navigation}) {
 }
     return(
     <NavigationContainer>
-        <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' , headerShown: false  }}>
+        <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' ,presentation: 'transparentModal' , headerShown: false  }}>
             <Stack.Screen name="Login" component={Login}/>
             <Stack.Screen name="SignUp" component={SignUp}/>
             <Stack.Screen name="SuccessPage" component={SuccessPage}/>
