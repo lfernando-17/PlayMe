@@ -163,6 +163,6 @@
 <p>By email: lfernandoleal17@gmail.com</p>
 </li>
 <li>
-<p>By visiting this page on our website: <a href="https://github.com/lfernando-17/TCC" rel="external nofollow noopener" target="_blank">https://github.com/lfernando-17/TCC</a></p>
+<p>By visiting this page on our website: <a href="https://github.com/lfernando-17/PlayMe" rel="external nofollow noopener" target="_blank">https://github.com/lfernando-17/TCC</a></p>
 </li>
 </ul>
