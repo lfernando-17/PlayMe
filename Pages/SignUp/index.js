@@ -9,8 +9,9 @@ import styles from './styles'
 const Input = ({placeholder , type , value , onChange , stylesInput }) => {
   return (
   <View style={styles.input}>
-      <Ionicons name={placeholder =='Email'?'people-outline' : 'lock-closed-outline'} size={20} color={"black"} />
+      <Ionicons name={placeholder =='Email'?'mail-outline' : (placeholder=='Name' ? 'person-circle-outline': (placeholder=='Surname'? 'people-circle-outline':'lock-closed-outline'))} size={20} color={"black"} />
   <TextInput
+      placeholderTextColor={'#9c9c9c'}
       secureTextEntry={ placeholder !='Password' || placeholder != 'Confirm Password'? false : true}
       style={stylesInput}
       onChangeText={onChange}
@@ -90,26 +91,30 @@ export default function SignUp({navigation}){
     const [surname,setsurname] = React.useState(null)
     const [name,setname] = React.useState(null)
     return (
+
       <View style={{flex : 1 ,backgroundColor:'#059384'}}>
           <Pressable style={{marginHorizontal:10, marginTop:40}}onPress={()=>navigation.goBack()}>
             <Ionicons name={'chevron-back-outline'} size={30} color={"blue"} />
           </Pressable>
+          <View style={{ position:'absolute',marginTop:'30%',marginLeft:'10%',alignItems:'center',justifyContent:'flex-end'}}>
+                <Text style={{color:'white',fontSize:25,fontWeight: 'bold'}}>Sign Up !</Text>
+              </View><View style={{flex:1,alignItems:'center',justifyContent:'flex-end'}}>
+          
+          <View style={{borderTopLeftRadius: 35 ,borderTopRightRadius : 35 ,backgroundColor:'white',height : '72%',width:'100%' ,alignItems:'center'}}>   
+              
+              <View style={{flexDirection:'row',width:'90%',marginLeft:5,marginTop:50}}>
+                  <View style={{alignItems:'flex-start'}}>
+                      <Text style={{textAlign:'center'}}>Name : </Text>
+                      <Input placeholder = "Name" type = "default" value = 
+                      {name} onChange={setname} stylesInput={{marginLeft : 5,height:'100%',width:'40%'}}/>
+                  </View>
+                  <View style={{alignItems:'flex-start'}}>
+                      <Text>Surname : </Text>
+                      <Input placeholder = "Surname" type = "default" value = 
+                      {surname} onChange={setsurname} stylesInput={{marginLeft : 5,height:'100%',width:'40%'}}/>
+                  </View>
+              </View>
 
-        <View style={{justifyContent:'center',alignItems:'center'}}>
-          <View style={{width:'90%',height:'90%',backgroundColor:'white',borderRadius : 40,alignItems:'center'}}>   
-              <View style={{marginVertical:40}}>
-                <Text>Sign Up !</Text>
-              </View>
-              <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
-                  <Text style={{textAlign:'center'}}>Name : </Text>
-                  <Input placeholder = "Name" type = "default" value = 
-                  {name} onChange={setname} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
-              </View>
-              <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
-                  <Text>Surname : </Text>
-                  <Input placeholder = "Surname" type = "default" value = 
-                  {surname} onChange={setsurname} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
-              </View>
               <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
                   <Text>Email : </Text>
                   <Input placeholder = "Email" type = "default" value = 
