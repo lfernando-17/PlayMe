@@ -10,7 +10,8 @@ export default function SuccessPage({navigation,route}){
         family_name : user.user_metadata.surname ?? "",
         given_name : user.user_metadata.name ?? "",
         locale : user.user_metadata.country ?? "",
-        name : user.user_metadata.name ?? "" +  user.user_metadata.surname ?? ""
+        name : user.user_metadata.name ?? "" +  user.user_metadata.surname ?? "",
+        picture : user.user_metadata.picture ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
     }
     return (
         <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>

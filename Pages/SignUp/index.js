@@ -1,9 +1,10 @@
 import React from 'react';
-import {Text , Pressable , View , Alert , TextInput} from 'react-native'
+import {Text , Pressable , View , Alert , TextInput , Image} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Localization from 'expo-localization';
 import { createClient } from '@supabase/supabase-js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
 import styles from './styles'
 
 const Input = ({placeholder , type , value , onChange , stylesInput }) => {
@@ -38,6 +39,49 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
 
 export default function SignUp({navigation}){
 
+  const [image, setImage] = React.useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      const ext = result.uri.substring(result.uri.lastIndexOf(".") + 1);
+
+      const fileName = result.uri.replace(/^.*[\\\/]/,"1");
+
+      var formData = new FormData();
+      formData.append("files",{
+        uri : result.uri,
+        name : fileName,
+        type : result.type ? `image/${ext}` : `video/${ext}`
+      })
+
+      const { data, error } = await supabase.storage
+      .from("image-bucket")
+      .upload(fileName,formData)
+
+      if(data){
+        setImage("https://euuugeoixisfdpijuaea.supabase.in/storage/v1/object/public/"+data.Key)
+      };
+      if (error) {
+        Alert.alert(
+          "There were problems with the camera !",
+          "",
+          [
+            { text: "OK" }
+          ]
+        )
+        return
+      }
+    }
+  };
+
     const SignUp = async(email,password,confirmpassword,name,surname) => {
         if(email == null || password == null){
             Alert.alert(
@@ -68,7 +112,8 @@ export default function SignUp({navigation}){
             data : {
               name : name,
               surname : surname,
-              country : Localization.locale
+              country : Localization,
+              picture : image
             }
           }
           
@@ -102,6 +147,11 @@ export default function SignUp({navigation}){
           
           <View style={{borderTopLeftRadius: 35 ,borderTopRightRadius : 35 ,backgroundColor:'white',height : '72%',width:'100%' ,alignItems:'center'}}>   
               
+                <Pressable onPress={pickImage}>
+                  {console.log(image)}
+                    <Image  style={{width : 75,height : 75 , marginTop:5,borderRadius:10,overflow: "hidden",borderWidth: 5,borderColor: "#059384"}} source={{uri : image != null ? image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}}></Image>
+                </Pressable>
+
               <View style={{flexDirection:'row',width:'90%',marginLeft:5,marginTop:50}}>
                   <View style={{alignItems:'flex-start'}}>
                       <Text style={{textAlign:'center'}}>Name : </Text>
@@ -137,11 +187,11 @@ export default function SignUp({navigation}){
                 <Pressable style={styles.pressableLogin} onPress={()=>SignUp(email,password,confirmpassword,name,surname)}>
                   <Text>Enter</Text>
                 </Pressable>
+
               </View>
 
           </View>
         </View>
-          
       </View>
     )
 }
