@@ -77,92 +77,95 @@ export default function SignUp({navigation}){
         throw error.message
   }
 }
-const pickImage = async () => {
-  // No permissions request is necessary for launching the image library
-  let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-  });
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-  if (!result.cancelled) {
-      setImage(result.uri)
+    if (!result.cancelled) {
+        setImage(result.uri)
+      }
     }
-  }
 
-
-    const signUp = async() => {
-        if(email == null || password == null){
-            Alert.alert(
-                "There are fields missing !",
-                "",
-                [
-                  { text: "OK" }
-                ]
-              )
-              return
-        }
-
-        if(password != confirmpassword) {
+  const signUp = async() => {
+      if(email == null || password == null){
           Alert.alert(
-            "Passwords doesn't mach !",
-            "",
-            [
-              { text: "OK" }
-            ]
-          )
-          return
-        }
+              "There are fields missing !",
+              "",
+              [
+                { text: "OK" }
+              ]
+            )
+            return
+      }
 
-        try {
-          let { user, error } = await supabase.auth.signUp({
-            email: email,
-            password: password
-          },{
-            data : {
-              name : name,
-              surname : surname,
-              country : Localization.locale,
-              picture : image
-            }
+      if(password != confirmpassword) {
+        Alert.alert(
+          "Passwords doesn't mach !",
+          "",
+          [
+            { text: "OK" }
+          ]
+        )
+        return
+      }
+
+      try {
+        let { user, error } = await supabase.auth.signUp({
+          email: email,
+          password: password
+        },{
+          data : {
+            name : name,
+            surname : surname,
+            country : Localization.locale,
+            picture : image
           }
-          
-          )
-          if(error != null) {throw error}  
-                  
-          await imageBucket(image)
-          await supabase.auth.update({data:{picture: imageAux}})
-          user.user_metadata.picture = imageAux
-          navigation.navigate('SuccessPage',user) 
-        } catch (error) {
-          Alert.alert(
-            error.message,
-            "",
-            [
-              { text: "OK" }
-            ]
-          )
         }
-       
-    }
+        
+        )
+        if(error != null) {throw error}  
+                
+        await imageBucket(image)
+        await supabase.auth.update({data:{picture: imageAux}})
+        user.user_metadata.picture = imageAux
+        navigation.navigate('SuccessPage',user) 
+      } catch (error) {
+        Alert.alert(
+          error.message,
+          "",
+          [
+            { text: "OK" }
+          ]
+        )
+      }
+      
+  }
 
     return (
 
-      <View style={{flex : 1 ,backgroundColor:'#059384'}}>
-          <Pressable style={{marginHorizontal:10, marginTop:40}}onPress={()=>navigation.goBack()}>
+      <View style={styles.containerAll}>
+
+          <Pressable style={styles.pressableImage}onPress={()=>navigation.goBack()}>
             <Ionicons name={'chevron-back-outline'} size={30} color={"blue"} />
           </Pressable>
-          <View style={{ zIndex:1,position:'absolute',marginTop:'20%',marginLeft:'30%',alignItems:'center',justifyContent:'flex-end'}}>
-                <Text style={{color:'white',fontSize:25,fontWeight: 'bold'}}>Sign Up !</Text>
-                <Pressable style={{zIndex:-1}}onPress={pickImage}>
-                    <Image  style={{width : 100,height : 100 , marginTop:30,borderRadius:10,overflow: "hidden",borderWidth: 5,borderColor: "grey"}} source={{uri : image }}></Image>
-                </Pressable>
-              </View><View style={{flex:1,alignItems:'center',justifyContent:'flex-end'}}>
-          
-          <View style={{borderTopLeftRadius: 35 ,borderTopRightRadius : 35 ,backgroundColor:'white',height : '68%',width:'100%' ,alignItems:'center'}}>   
 
-              <View style={{flexDirection:'row',width:'90%',marginLeft:5,marginTop:50}}>
+          <View style={styles.containerHeader}>
+                <Text style={styles.txtSignUp}>Sign Up !</Text>
+                <Pressable style={{zIndex:-1}}onPress={pickImage}>
+                    <Image  style={styles.imageProfile} source={{uri : image }}></Image>
+                </Pressable>
+          </View>
+              
+          <View style={styles.containerCard}>
+          
+          <View style={styles.card}>   
+
+              <View style={styles.inputProfileInfo}>
                   <View style={{alignItems:'flex-start'}}>
                       <Text style={{textAlign:'center'}}>Name : </Text>
                       <Input placeholder = "Name" type = "default" value = 

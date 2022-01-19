@@ -1,6 +1,55 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    inputProfileInfo : {
+        flexDirection:'row',
+        width:'90%',
+        marginLeft:5,
+        marginTop:50
+    },
+    card : {
+        borderTopLeftRadius: 35 ,
+        borderTopRightRadius : 35 ,
+        backgroundColor:'white',
+        height : '68%',
+        width:'100%' ,
+        alignItems:'center'
+    },
+    containerCard : {
+        flex:1,
+        alignItems:'center',
+        justifyContent:'flex-end'
+    },
+    imageProfile : {
+        width : 100,
+        height : 100 , 
+        marginTop:30,
+        borderRadius:10,
+        overflow: "hidden",
+        borderWidth: 5,
+        borderColor: "grey"
+    },
+    txtSignUp : {
+        color:'white',
+        fontSize:25,
+        fontWeight: 'bold'
+    },
+    containerHeader : {
+        zIndex:1,
+        position:'absolute',
+        marginTop:'20%',
+        marginLeft:'30%',
+        alignItems:'center',
+        justifyContent:'flex-end'
+    },
+    pressableImage : {
+        marginHorizontal:10, 
+        marginTop:40
+    },
+    containerAll : {
+        flex : 1 ,
+        backgroundColor:'#059384'
+    },
     input : {
         flexDirection:'row',
         marginVertical:10,
