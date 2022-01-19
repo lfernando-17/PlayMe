@@ -43,7 +43,7 @@ export default function SignUp({navigation}){
   const [confirmpassword, setconfirmpassword] = React.useState(null)
   const [surname,setsurname] = React.useState(null)
   const [name,setname] = React.useState(null)
-
+  const [button,setButton] = React.useState(false)
   const [image, setImage] = React.useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
   var imageAux = image;
 
@@ -92,25 +92,28 @@ export default function SignUp({navigation}){
     }
 
   const signUp = async() => {
-      if(email == null || password == null){
+    setButton(true);
+      if(email == null || password == null || name == null || surname == null){
           Alert.alert(
+              "Attention",
               "There are fields missing !",
-              "",
               [
                 { text: "OK" }
               ]
             )
+            setButton(false);
             return
       }
 
       if(password != confirmpassword) {
         Alert.alert(
+          "Attention",
           "Passwords doesn't mach !",
-          "",
           [
             { text: "OK" }
           ]
         )
+        setButton(false);
         return
       }
 
@@ -136,12 +139,14 @@ export default function SignUp({navigation}){
         navigation.navigate('SuccessPage',user) 
       } catch (error) {
         Alert.alert(
+          "Attention",
           error.message,
-          "",
           [
             { text: "OK" }
           ]
         )
+        setButton(false);
+        return
       }
       
   }
@@ -196,7 +201,7 @@ export default function SignUp({navigation}){
                   {confirmpassword} onChange={setconfirmpassword} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
               </View>
 
-              <View style={styles.containerEnter}>
+              <View disabled={button} style={styles.containerEnter}>
                 <Pressable style={styles.pressableLogin} onPress={()=>signUp()}>
                   <Text>Enter</Text>
                 </Pressable>

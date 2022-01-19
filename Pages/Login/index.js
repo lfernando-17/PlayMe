@@ -54,6 +54,7 @@ const Card = ({ logoName , color , size , handleSignIn }) => {
 export default function Login({navigation}){
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const [button,setButton] = useState(false);
 
 const signUpFacebook = async () => {
     try {
@@ -99,10 +100,11 @@ const handleSignIn = async () =>{
 }
 
 const loginAPI = async(email , password) =>{
+    setButton(true)
     if(email == null || password == null){
         Alert.alert(
+            "Attention",
             "There are fields missing !",
-            "",
             [
               { text: "OK" }
             ]
@@ -116,12 +118,13 @@ const loginAPI = async(email , password) =>{
       })
       
       if(error != null) {Alert.alert(
+          "Attention",
           error.message,
-          "",
           [
             { text: "OK" }
           ]
         )
+        setButton(false);
         return }
         
         const profile = {
@@ -163,7 +166,7 @@ const loginAPI = async(email , password) =>{
                         {/* <Card  logoName = "logo-twitter" color = "#1DA1F2" size = {25}  handleSignIn={signUpTwitter}/> */}
                     </View>
 
-                    <Pressable style = {styles.pressableLogin} onPress={()=>loginAPI(username,password)}>  
+                    <Pressable disable = {button} style = {styles.pressableLogin} onPress={()=>loginAPI(username,password)}>  
                         <Text style={{fontSize:17}}>Sign in</Text>   
                     </Pressable>
 
