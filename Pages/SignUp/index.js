@@ -163,7 +163,10 @@ export default function SignUp({navigation}){
                 <Text style={styles.txtSignUp}>Sign Up !</Text>
                 <Pressable style={{zIndex:-1}}onPress={pickImage}>
                     <Image  style={styles.imageProfile} source={{uri : image }}></Image>
-                </Pressable>
+                    <View style={{position: 'absolute',right: 10,top: 42}}>
+                    <Ionicons  name={"pencil-sharp"} size={20} color={"black"} />
+                    </View>
+                    </Pressable>
           </View>
               
           <View style={styles.containerCard}>
