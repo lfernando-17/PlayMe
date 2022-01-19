@@ -80,7 +80,7 @@ export default function SignUp({navigation}){
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -166,37 +166,37 @@ export default function SignUp({navigation}){
           <View style={styles.card}>   
 
               <View style={styles.inputProfileInfo}>
-                  <View style={{alignItems:'flex-start'}}>
+                  <View style={styles.name}>
                       <Text style={{textAlign:'center'}}>Name : </Text>
                       <Input placeholder = "Name" type = "default" value = 
                       {name} onChange={setname} stylesInput={{marginLeft : 5,height:'100%',width:'40%'}}/>
                   </View>
-                  <View style={{alignItems:'flex-start'}}>
+                  <View style={styles.name}>
                       <Text>Surname : </Text>
                       <Input placeholder = "Surname" type = "default" value = 
                       {surname} onChange={setsurname} stylesInput={{marginLeft : 5,height:'100%',width:'40%'}}/>
                   </View>
               </View>
 
-              <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
+              <View style={styles.containerData}>
                   <Text>Email : </Text>
                   <Input placeholder = "Email" type = "default" value = 
                   {email} onChange={setemail} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
               </View>
 
-              <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
+              <View style={styles.containerData}>
                   <Text>Password : </Text>
                   <Input placeholder = "Password" type = "default" value = 
                   {password} onChange={setpassword} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
               </View>
 
-              <View style={{marginVertical:10,alignItems:'flex-start',width:'90%'}}>
+              <View style={styles.containerData}>
                   <Text>Confirm Password : </Text>
                   <Input placeholder = "Confirm Password" type = "default" value = 
                   {confirmpassword} onChange={setconfirmpassword} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
               </View>
 
-              <View style={{alignItems:'center',width:"90%",height:"90%"}}>
+              <View style={styles.containerEnter}>
                 <Pressable style={styles.pressableLogin} onPress={()=>signUp()}>
                   <Text>Enter</Text>
                 </Pressable>

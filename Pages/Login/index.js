@@ -138,7 +138,8 @@ const loginAPI = async(email , password) =>{
  return (
         <View style ={styles.containerAll}>
             <View style = {styles.containerWelcome}> 
-                <Text style={styles.txtWelcome}>Welcome !</Text>
+                <Text style={styles.txtWelcome}>Look up and Play Me !</Text>
+                <Text style={{color:'white' , fontSize:15 , marginTop : 10}}>Discover new games to play </Text>
             </View>
             <View style ={styles.containerLogin}>
                 <View style = {styles.login}>

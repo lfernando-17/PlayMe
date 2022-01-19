@@ -1,6 +1,19 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    containerEnter:{
+        alignItems:'center',
+        width:"90%",
+        height:"90%"
+    },
+    containerData : {
+        marginVertical:10,
+        alignItems:'flex-start',
+        width:'90%'
+    },
+    name : {
+        alignItems:'flex-start'
+    },
     inputProfileInfo : {
         flexDirection:'row',
         width:'90%',
@@ -21,8 +34,8 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end'
     },
     imageProfile : {
-        width : 100,
-        height : 100 , 
+        width : 120,
+        height : 120 , 
         marginTop:30,
         borderRadius:10,
         overflow: "hidden",
