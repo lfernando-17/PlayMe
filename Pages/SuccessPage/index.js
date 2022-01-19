@@ -13,8 +13,10 @@ export default function SuccessPage({navigation,route}){
         name : user.user_metadata.name ?? "" +  user.user_metadata.surname ?? "",
         picture : user.user_metadata.picture ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
     }
+
+    console.log(profile)
     return (
-        <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+        <View style={{zIndex:-200,flex:1,justifyContent:'center',alignItems:'center'}}>
             <Text style={{marginBottom:30,fontSize:25}}>Success!</Text>
             <Text style ={{marginBottom : 30}}>Your account has been created</Text>
             <Ionicons name={'checkmark-circle-outline'} size={150} color={"#08d4c4"} />

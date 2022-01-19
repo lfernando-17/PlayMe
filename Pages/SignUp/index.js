@@ -13,7 +13,7 @@ const Input = ({placeholder , type , value , onChange , stylesInput }) => {
       <Ionicons name={placeholder =='Email'?'mail-outline' : (placeholder=='Name' ? 'person-circle-outline': (placeholder=='Surname'? 'people-circle-outline':'lock-closed-outline'))} size={20} color={"black"} />
   <TextInput
       placeholderTextColor={'#9c9c9c'}
-      secureTextEntry={ placeholder !='Password' || placeholder != 'Confirm Password'? false : true}
+      secureTextEntry={ placeholder =='Password' || placeholder == 'Confirm Password'? true : false}
       style={stylesInput}
       onChangeText={onChange}
       value={value}
@@ -38,26 +38,22 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
 
 
 export default function SignUp({navigation}){
+  const [email, setemail] = React.useState(null)
+  const [password, setpassword] = React.useState(null)
+  const [confirmpassword, setconfirmpassword] = React.useState(null)
+  const [surname,setsurname] = React.useState(null)
+  const [name,setname] = React.useState(null)
 
-  const [image, setImage] = React.useState(null);
+  const [image, setImage] = React.useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  const imageBucket = async(result)=>{
+    const ext = result.substring(result.lastIndexOf(".") + 1);
 
-    if (!result.cancelled) {
-      const ext = result.uri.substring(result.uri.lastIndexOf(".") + 1);
-
-      const fileName = result.uri.replace(/^.*[\\\/]/,"1");
+      const fileName = result.replace(/^.*[\\\/]/,"1");
 
       var formData = new FormData();
       formData.append("files",{
-        uri : result.uri,
+        uri : result,
         name : fileName,
         type : result.type ? `image/${ext}` : `video/${ext}`
       })
@@ -77,12 +73,24 @@ export default function SignUp({navigation}){
             { text: "OK" }
           ]
         )
-        return
-      }
-    }
-  };
+  }
+}
+const pickImage = async () => {
+  // No permissions request is necessary for launching the image library
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
 
-    const SignUp = async(email,password,confirmpassword,name,surname) => {
+  if (!result.cancelled) {
+      setImage(result.uri)
+    }
+  }
+
+
+    const signUp = async() => {
         if(email == null || password == null){
             Alert.alert(
                 "There are fields missing !",
@@ -104,7 +112,7 @@ export default function SignUp({navigation}){
           )
           return
         }
-    
+        imageBucket(image)
         let { user, error } = await supabase.auth.signUp({
             email: email,
             password: password
@@ -125,32 +133,26 @@ export default function SignUp({navigation}){
               { text: "OK" }
             ]
           )
-          return }
+          return 
+        }
               navigation.navigate('SuccessPage',user)
           
     }
 
-    const [email, setemail] = React.useState(null)
-    const [password, setpassword] = React.useState(null)
-    const [confirmpassword, setconfirmpassword] = React.useState(null)
-    const [surname,setsurname] = React.useState(null)
-    const [name,setname] = React.useState(null)
     return (
 
       <View style={{flex : 1 ,backgroundColor:'#059384'}}>
           <Pressable style={{marginHorizontal:10, marginTop:40}}onPress={()=>navigation.goBack()}>
             <Ionicons name={'chevron-back-outline'} size={30} color={"blue"} />
           </Pressable>
-          <View style={{ position:'absolute',marginTop:'30%',marginLeft:'10%',alignItems:'center',justifyContent:'flex-end'}}>
+          <View style={{ zIndex:1,position:'absolute',marginTop:'20%',marginLeft:'30%',alignItems:'center',justifyContent:'flex-end'}}>
                 <Text style={{color:'white',fontSize:25,fontWeight: 'bold'}}>Sign Up !</Text>
+                <Pressable style={{zIndex:-1}}onPress={pickImage}>
+                    <Image  style={{width : 100,height : 100 , marginTop:30,borderRadius:10,overflow: "hidden",borderWidth: 5,borderColor: "grey"}} source={{uri : image }}></Image>
+                </Pressable>
               </View><View style={{flex:1,alignItems:'center',justifyContent:'flex-end'}}>
           
-          <View style={{borderTopLeftRadius: 35 ,borderTopRightRadius : 35 ,backgroundColor:'white',height : '72%',width:'100%' ,alignItems:'center'}}>   
-              
-                <Pressable onPress={pickImage}>
-                  {console.log(image)}
-                    <Image  style={{width : 75,height : 75 , marginTop:5,borderRadius:10,overflow: "hidden",borderWidth: 5,borderColor: "#059384"}} source={{uri : image != null ? image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}}></Image>
-                </Pressable>
+          <View style={{borderTopLeftRadius: 35 ,borderTopRightRadius : 35 ,backgroundColor:'white',height : '68%',width:'100%' ,alignItems:'center'}}>   
 
               <View style={{flexDirection:'row',width:'90%',marginLeft:5,marginTop:50}}>
                   <View style={{alignItems:'flex-start'}}>
@@ -184,7 +186,7 @@ export default function SignUp({navigation}){
               </View>
 
               <View style={{alignItems:'center',width:"90%",height:"90%"}}>
-                <Pressable style={styles.pressableLogin} onPress={()=>SignUp(email,password,confirmpassword,name,surname)}>
+                <Pressable style={styles.pressableLogin} onPress={()=>signUp()}>
                   <Text>Enter</Text>
                 </Pressable>
 
