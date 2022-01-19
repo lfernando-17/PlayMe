@@ -72,7 +72,7 @@ export default function Profile({route , navigation}){
             </View>
             
             <View style={{flexDirection:'row',marginTop:30}}>
-                <Pressable style={{flexDirection:'row',alignItems:'center'}} onPress={()=>navigation.navigate("Login")}>
+                <Pressable style={{flexDirection:'row',alignItems:'center'}} onPress={()=>{ navigation.navigate("Login")}}>
                     <Ionicons name={'power'} size={30} color={"black"} />
                     <Text style={{marginLeft:4}}>Desconectar</Text>
                 </Pressable>

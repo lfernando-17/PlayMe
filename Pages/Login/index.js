@@ -123,13 +123,14 @@ const loginAPI = async(email , password) =>{
           ]
         )
         return }
-
+        
         const profile = {
             email : user.email ?? "",
             family_name : user.user_metadata.surname ?? "",
             given_name : user.user_metadata.name ?? "",
             locale : user.user_metadata.country ?? "",
-            name : (user.user_metadata.name + user.user_metadata.surname ) ?? ""
+            name : (user.user_metadata.name + user.user_metadata.surname ) ?? "" ,
+            picture : user.user_metadata.picture
         }
         navigation.navigate('Tabs',{resp : profile, wayIn:"supabase"})
 }

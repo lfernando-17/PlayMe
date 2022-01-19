@@ -45,6 +45,7 @@ export default function SignUp({navigation}){
   const [name,setname] = React.useState(null)
 
   const [image, setImage] = React.useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
+  var imageAux = image;
 
   const imageBucket = async(result)=>{
     const ext = result.substring(result.lastIndexOf(".") + 1);
@@ -61,18 +62,19 @@ export default function SignUp({navigation}){
       const { data, error } = await supabase.storage
       .from("image-bucket")
       .upload(fileName,formData)
-
-      if(data){
-        setImage("https://euuugeoixisfdpijuaea.supabase.in/storage/v1/object/public/"+data.Key)
+      
+      if(data != null){
+        imageAux =`https://euuugeoixisfdpijuaea.supabase.in/storage/v1/object/public/${data.Key}`;
       };
-      if (error) {
+      if (error != null) {
         Alert.alert(
-          "There were problems with the camera !",
+          `There were problems with the camera ${error.message}!`,
           "",
           [
             { text: "OK" }
           ]
         )
+        throw error.message
   }
 }
 const pickImage = async () => {
@@ -112,31 +114,37 @@ const pickImage = async () => {
           )
           return
         }
-        imageBucket(image)
-        let { user, error } = await supabase.auth.signUp({
+
+        try {
+          let { user, error } = await supabase.auth.signUp({
             email: email,
             password: password
           },{
             data : {
               name : name,
               surname : surname,
-              country : Localization,
+              country : Localization.locale,
               picture : image
             }
           }
           
           )
-          if(error != null) {Alert.alert(
+          if(error != null) {throw error}  
+                  
+          await imageBucket(image)
+          await supabase.auth.update({data:{picture: imageAux}})
+          user.user_metadata.picture = imageAux
+          navigation.navigate('SuccessPage',user) 
+        } catch (error) {
+          Alert.alert(
             error.message,
             "",
             [
               { text: "OK" }
             ]
           )
-          return 
         }
-              navigation.navigate('SuccessPage',user)
-          
+       
     }
 
     return (

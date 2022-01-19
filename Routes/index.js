@@ -55,9 +55,11 @@ function Tabs ({route , navigation}) {
 }
     return(
     <NavigationContainer>
-        <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' ,presentation: 'transparentModal' , headerShown: false  }}>
-            <Stack.Screen name="Login" component={Login}/>
-            <Stack.Screen name="SignUp" component={SignUp}/>
+        <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' ,presentation: 'card' , headerShown: false  }}>
+            <Stack.Group screenOptions={{ modalPresentationStyle: 'fullScreen' ,presentation: 'transparentModal' , headerShown: false  }}>
+              <Stack.Screen name="Login" component={Login}/>
+              <Stack.Screen name="SignUp" component={SignUp}/>
+            </Stack.Group>
             <Stack.Screen name="SuccessPage" component={SuccessPage}/>
             <Stack.Screen name="Tabs" component={Tabs}/>
             <Stack.Screen name="GameFocused" component={GameFocused}/>
