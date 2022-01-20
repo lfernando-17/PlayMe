@@ -96,7 +96,7 @@ export default function Games({navigation}) {
   }
 
   React.useEffect(() => {
-    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover.url != null;", setResp)
+    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover != null & similar_games.cover.url != null;", setResp)
   }, [skip])
 
   return (

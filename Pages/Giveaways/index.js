@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import apiGiveaway from "../../Services/apiGiveaway";
 import style from "./style";
 
-    const handleNome = (nome) => {
-      return (nome?.length > 30 ? nome.substring(0,30) + '...' : nome);
-    }
+
+const handleNome = (nome) => {
+  return (nome?.length > 30 ? nome.substring(0,30) + '...' : nome);
+}
 
 const createCards = (data,{navigation}) => {
     return( 
@@ -61,7 +62,7 @@ export default function Giveaways({navigation}){
     return (
         <>
         {loading ? (
-          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginBottom : '20%', height: '100%'}}>
+          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginTop:30,marginBottom : '20%', height: '100%'}}>
             <MemoizedList resp={resp}  window = {window} navigation = {navigation}/>
            </View>
           ) : 
