@@ -1,15 +1,19 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StatusBar ,  Image , useWindowDimensions, Pressable , FlatList} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { ActivityIndicator } from 'react-native-paper';
+import apiGames from '../../Services/apiGames';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import style from './style';
 
-const similarGames = (data,window) => {
+const similarGames = (data,window,getGameInfo) => {
   return (
         <View style={{alignItems: 'center', justifyContent: 'center',width: (window.width > 600 ? 180 : 160) , marginLeft : 20}}>
-          <Text style={{marginBottom : 5,textAlign:'center'}}>{data.item.name}</Text>
-          <Image  style={style.similarGames(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image> 
+          <Pressable onPress={()=>
+              getGameInfo(data.item.id)
+            }>
+            <Text style={{marginBottom : 5,textAlign:'center'}}>{data.item.name}</Text>
+            <Image  style={style.similarGames(window)} source={{uri : "https:"+(data.item.cover?.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image> 
+          </Pressable>
         </View>
   )
 }
@@ -23,6 +27,27 @@ const renderScreenshot = (data,window) => {
 }
 
 export default function GameFocused({route , navigation}) {
+
+  const getSimilarGameInfo =async (id) => {
+    let link = "/games";
+    let fields = "fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover.url != null & id = "+id+";";
+    await apiGames
+    .post(link, fields,
+    {
+      headers: {
+          'Client-ID': 'f7wh9fp8o60qav6ym4znqy8hp4s6h1',
+          'Content-Type': 'text/plain',
+          'Authorization': 'Bearer emcopxz4lpds5uy8w7uq44f7cgjaqm' 
+      }
+    })
+    .then((response) => {
+      navigation.replace('GameFocused',response.data[0]);
+    })
+    .catch((err) => {
+      console.error("ops! ocorreu um erro" + err);
+    });
+  }
+
   const window = useWindowDimensions();
   const data = route.params;
   return (
@@ -38,7 +63,7 @@ export default function GameFocused({route , navigation}) {
           </View>
           <View style={{flexDirection:'row'}}>
 
-            <Image  style={style.Logo(window)} source={{uri : "https:"+(data.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image>  
+            <Image  style={style.Logo(window)} source={{uri : "https:"+(data.cover?.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image>  
             
             <View style = {{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
               <Text style={{ textAlign: 'center',}}>{data.name}</Text>
@@ -65,7 +90,7 @@ export default function GameFocused({route , navigation}) {
               horizontal
               showsHorizontalScrollIndicator={false}
               data={data.similar_games}
-              renderItem={(data)=>similarGames(data,window)}
+              renderItem={(data)=>similarGames(data,window,getSimilarGameInfo)}
               keyExtractor={(item, index) => String(index)}
             />
           </View>
