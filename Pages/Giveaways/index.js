@@ -66,7 +66,7 @@ export default function Giveaways({navigation}){
             <MemoizedList resp={resp}  window = {window} navigation = {navigation}/>
            </View>
           ) : 
-          (<View style={style.loadingView}><ActivityIndicator size={60} color={"#424242"} /></View>) 
+          (<View style={style.loadingView}><ActivityIndicator size={30} color="#0000ff" /></View>) 
         }
         </>
     )

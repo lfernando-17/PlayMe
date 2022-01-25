@@ -32,7 +32,7 @@ const MemoizedList = React.memo(({resp,createCard,window,navigation,offset,setOf
 
 const footer = () => {
   return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 10}}>
+    <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', margin: 10}}>
       <ActivityIndicator size="medium" color="#0000ff" />
     </View>
   )
@@ -77,6 +77,8 @@ export default function Games({navigation}) {
   const [resp, setResp] = React.useState([]);
   const window = useWindowDimensions();
   const [skip,setSkip] = React.useState(0);
+  const [loading,setLoading] = React.useState(true);
+
   const requestAPI = async (link,fields,state) => {
     await apiGames
     .post(link, fields,
@@ -89,6 +91,7 @@ export default function Games({navigation}) {
     })
     .then((response) => {
       state(response.data);
+      setLoading(false)
     })
     .catch((err) => {
       console.error("ops! ocorreu um erro" + err);
@@ -96,15 +99,20 @@ export default function Games({navigation}) {
   }
 
   React.useEffect(() => {
-    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover != null & similar_games.cover.url != null;", setResp)
+    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover.url != null;", setResp)
   }, [skip])
 
   return (
-    <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <MemoizedList setOffSet = {setSkip} offset = {skip} request = {requestAPI} setResp={setResp} resp={resp} createCard = {createCards}  window = {window} navigation = {navigation} />
-      </View>
-    </SafeAreaView>
+
+    !loading ?
+      <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <MemoizedList setOffSet = {setSkip} offset = {skip} request = {requestAPI} setResp={setResp} resp={resp} createCard = {createCards}  window = {window} navigation = {navigation} />
+        </View>
+      </SafeAreaView>
+      :
+        footer()
+
   );
 }
 

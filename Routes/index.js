@@ -6,6 +6,7 @@ import SuccessPage from "../Pages/SuccessPage"
 import Login from '../Pages/Login'
 import SignUp from '../Pages/SignUp'
 import React from "react";
+import ScreenshotFocused from '../Pages/GameFocused/ScreenshotFocused'
 import GameFocused from "../Pages/GameFocused";
 import Profile from "../Pages/Profile";
 import { NavigationContainer } from '@react-navigation/native';
@@ -59,6 +60,7 @@ function Tabs ({route , navigation}) {
             <Stack.Group screenOptions={{ modalPresentationStyle: 'fullScreen' ,presentation: 'transparentModal' , headerShown: false  }}>
               <Stack.Screen name="Login" component={Login}/>
               <Stack.Screen name="SignUp" component={SignUp}/>
+              <Stack.Screen name="ScreenshotFocused" component={ScreenshotFocused}/>
             </Stack.Group>
             <Stack.Screen name="SuccessPage" component={SuccessPage}/>
             <Stack.Screen name="Tabs" component={Tabs}/>

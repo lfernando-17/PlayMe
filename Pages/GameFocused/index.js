@@ -54,9 +54,11 @@ export default function GameFocused({route , navigation}) {
 const renderScreenshot = (data,window) => {
   return (
     <View style ={{backgroundColor : '#070621' , height :(window.width > 600 ? 200 : 200) , justifyContent : 'center'}}>
-      <Image onLoadStart = {()=>setLoading(true)} onLoadEnd={()=>setLoading(false)} style={style.screenshots(window)} source={{uri : "https:"+(data.item.url.replace("t_thumb","t_original") ?? '-')}}/>
+      <Pressable onPress={()=>navigation.navigate("ScreenshotFocused",data.item.url)}>
+        <Image onLoadStart = {()=>setLoading(true)} onLoadEnd={()=>setLoading(false)} style={style.screenshots(window)} source={{uri : "https:"+(data.item.url.replace("t_thumb","t_original") ?? '-')}}/>
+      </Pressable>
       {loading && <LoadingView/>}
-      </View>
+    </View>
   )
 }
 
@@ -69,13 +71,13 @@ const renderScreenshot = (data,window) => {
             <Pressable onPress={()=> navigation.goBack()}>
                 <Ionicons name={'close-circle-outline'} size={30} color={'#1470d9'} />
               </Pressable> 
-            
           </View>
+          
           <View style={{flexDirection:'row'}}>
 
-            <Image  style={style.Logo(window)} source={{uri : "https:"+(data.cover?.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image>  
+            <Image  style={style.Logo(window)} source={{uri : "https:"+(data.cover?.url.replace("t_thumb","t_cover_big") ?? "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg")}}></Image>  
             
-            <View style = {{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
+            <View style = {{width:'50%',justifyContent : 'center', alignItems : 'center'}}>
               <Text style={{ textAlign: 'center',}}>{data.name}</Text>
             </View>
           </View>
@@ -83,15 +85,16 @@ const renderScreenshot = (data,window) => {
           
             <Text style ={{textAlign:'center',margin : 20}}>{data.summary}</Text>
           
-
-          <FlatList
-            style={{flexGrow: 0}}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={data.screenshots}
-            renderItem={(data)=>renderScreenshot(data,window)}
-            keyExtractor={(item, index) => String(index)}
-            />
+          <Pressable onPress={()=>navigation.navigate("ScreenshotFocused",data.screenshots)}>
+            <FlatList
+              style={{flexGrow: 0}}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={data.screenshots}
+              renderItem={(data)=>renderScreenshot(data,window)}
+              keyExtractor={(item, index) => String(index)}
+              />
+          </Pressable>
 
             <Text style= {{margin : 20}}>Similar Games : </Text>
 
