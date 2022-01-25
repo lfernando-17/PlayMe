@@ -4,7 +4,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import apiGames from '../../Services/apiGames';
 import styles from './style';
 import ProgressCircle from 'react-native-progress-circle'
-
+import { Searchbar } from 'react-native-paper';
 const MemoizedList = React.memo(({resp,createCard,window,navigation,offset,setOffSet}) => {
   return (
     <FlatList
@@ -19,7 +19,6 @@ const MemoizedList = React.memo(({resp,createCard,window,navigation,offset,setOf
     onEndReached={() => {
       setOffSet(offset+3);
       }}
-    ListFooterComponent={footer}
     />
   )
 }, (prevProps, nextProps) => {
@@ -77,7 +76,15 @@ export default function Games({navigation}) {
   const [resp, setResp] = React.useState([]);
   const window = useWindowDimensions();
   const [skip,setSkip] = React.useState(0);
-  const [loading,setLoading] = React.useState(true);
+  const [loading,setLoading] = React.useState(false);
+  const [valueLabelQuery, setValueLabelQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const onChangeSearch = (query) => 
+    {
+      setLoading(false)
+      setValueLabelQuery(query)
+      setSearchQuery(query)
+    };
 
   const requestAPI = async (link,fields,state) => {
     await apiGames
@@ -91,7 +98,7 @@ export default function Games({navigation}) {
     })
     .then((response) => {
       state(response.data);
-      setLoading(false)
+      setLoading(true)
     })
     .catch((err) => {
       console.error("ops! ocorreu um erro" + err);
@@ -99,20 +106,33 @@ export default function Games({navigation}) {
   }
 
   React.useEffect(() => {
-    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover.url != null;", setResp)
-  }, [skip])
+    let busca = searchQuery;
+    let query = busca != '' ?  ' & name = "'+searchQuery+'";' : ";";
+    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover.url != null"+query, setResp)
+  }, [skip,searchQuery])
 
   return (
-
-    !loading ?
       <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
+        <Searchbar
+                style = {{width:window.width/1.2 , borderRadius : 20 , marginBottom : 30 , marginTop : 30}}
+                placeholder="Search"
+                onChangeText={onChangeSearch}
+                onSubmitEditing = {() => {
+                  setSearchQuery(valueLabelQuery),setLoading(!loading)}}
+                onIconPress = {() => {
+                  setSearchQuery(valueLabelQuery),setLoading(!loading)}}
+                value={valueLabelQuery}
+              />
+      {loading ?
+        (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <MemoizedList setOffSet = {setSkip} offset = {skip} request = {requestAPI} setResp={setResp} resp={resp} createCard = {createCards}  window = {window} navigation = {navigation} />
         </View>
-      </SafeAreaView>
+        )
       :
         footer()
-
+      }
+        </SafeAreaView>
   );
 }
 
