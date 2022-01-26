@@ -17,11 +17,10 @@ export default function Profile({route , navigation}){
     const data = route.params.resp
     const wayIn = route.params.wayIn
     const [Profile, setProfile] = useState({})
-
     async function loadProfile(){
         switch (wayIn){
             case 'google' : 
-                const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${route.params.resp.params.access_token}`)
+                const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${route.params.resp.access_token}`)
                 const userInfo = await response.json()
                 setProfile(userInfo);
                 break;

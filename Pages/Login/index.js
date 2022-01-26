@@ -3,6 +3,7 @@ import styles from './style';
 import { Text , View , TextInput, Pressable , Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as AuthSession from 'expo-auth-session';
+import * as Google from 'expo-auth-session/providers/google';
 import * as Facebook from "expo-facebook";
 import * as Localization from 'expo-localization';
 import { createClient } from '@supabase/supabase-js'
@@ -41,7 +42,7 @@ const Input = ({placeholder , type , value , onChange , stylesInput }) => {
     )
 }
 
-const Card = ({ logoName , color , size , handleSignIn }) => {
+const Card = ({ logoName , color , size , handleSignIn , request }) => {
     return (
         <Pressable style={[styles.card,{backgroundColor : color}]} onPress={handleSignIn}>
                 <View style ={styles.cardIcon}>
@@ -52,10 +53,23 @@ const Card = ({ logoName , color , size , handleSignIn }) => {
 }
 
 export default function Login({navigation}){
+    //Google Login
+    const [request, response, promptAsync] = Google.useAuthRequest({
+        expoClientId :CLIENT_ID
+      });
+
+      React.useEffect(() => {
+        if (response?.type === 'success') {
+            const { params } = response;
+            navigation.navigate('Tabs',{resp : params, wayIn : "google"})
+          }
+      }, [response]);
+
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [button,setButton] = useState(false);
 
+    // Facebook Login
 const signUpFacebook = async () => {
     try {
         await Facebook.initializeAsync({
@@ -88,14 +102,15 @@ const signUpFacebook = async () => {
     }
     };
 
+    //Deprecated
 const handleSignIn = async () =>{
 
-    const RESPONSE_TYPE = 'token';
-    const SCOPE = encodeURI('profile email');
+    // const RESPONSE_TYPE = 'token';
+    // const SCOPE = encodeURI('profile email');
 
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
-    const response = await AuthSession.startAsync({ authUrl })
-    if (response?.type =="success" ){navigation.navigate('Tabs',{resp : response, wayIn : "google"})}
+    // const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
+    // const response = await AuthSession.startAsync({ authUrl })
+    // if (response?.type =="success" ){navigation.navigate('Tabs',{resp : response, wayIn : "google"})}
 
 }
 
@@ -162,7 +177,7 @@ const loginAPI = async(email , password) =>{
 
                     <View style={styles.containerCards}>
                         <Card  logoName = "logo-facebook" color = "#4267B2" size = {25}  handleSignIn={signUpFacebook} />
-                        <Card  logoName = "logo-google" color = "#db3236" size = {25}  handleSignIn={handleSignIn} />
+                        <Card  logoName = "logo-google" color = "#db3236" size = {25}  handleSignIn={()=>promptAsync()} />
                         {/* <Card  logoName = "logo-twitter" color = "#1DA1F2" size = {25}  handleSignIn={signUpTwitter}/> */}
                     </View>
 

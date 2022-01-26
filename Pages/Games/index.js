@@ -79,6 +79,7 @@ export default function Games({navigation}) {
   const [loading,setLoading] = React.useState(false);
   const [valueLabelQuery, setValueLabelQuery] = React.useState('');
   const [searchQuery, setSearchQuery] = React.useState('');
+
   const onChangeSearch = (query) => 
     {
       setLoading(false)
@@ -106,9 +107,8 @@ export default function Games({navigation}) {
   }
 
   React.useEffect(() => {
-    let busca = searchQuery;
-    let query = busca != '' ?  ' & name = "'+searchQuery+'";' : ";";
-    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;sort created_at desc;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null & similar_games.cover.url != null"+query, setResp)
+    let query = searchQuery != '' ?  ';search"'+searchQuery+'";' : ";sort created_at desc;";
+    requestAPI("/games","fields similar_games.name,release_dates.human,similar_games.cover.url,name,cover.url,summary,rating,genres.name,platforms.name,screenshots.url;limit "+(skip+3)+";where cover != null & rating != null & genres !=null & release_dates != null"+query, setResp)
   }, [skip,searchQuery])
 
   return (

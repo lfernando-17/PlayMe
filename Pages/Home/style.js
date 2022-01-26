@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       padding: 13,
       marginBottom : 20,
-      elevation: 2,
       width: 'auto',
       margin : 10 , 
       alignItems : 'center' , 
