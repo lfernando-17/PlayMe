@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     borderRadius : 20,
   }), 
   Genres: {
+    marginVertical : 10,
     color : 'black',
     fontSize : 12,
     margin : 5,

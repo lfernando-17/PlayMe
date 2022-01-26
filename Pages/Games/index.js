@@ -43,7 +43,7 @@ const handleNome = (nome) => {
 
 const createCards = (data,window,{navigation}) => {
   return(
-      <Pressable style = {styles.card(window)}  onPress={()=>{}}>
+      <Pressable style = {styles.card(window)}  onPress={()=>navigation.navigate('GameFocused',data.item)}>
         <View style={styles.containerRating(window)}>
         <ProgressCircle
               percent={data.item.rating ?? '0'}
@@ -61,9 +61,9 @@ const createCards = (data,window,{navigation}) => {
             <Image  style={styles.tinyLogo(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image></View> 
           <View style = {styles.containerContenty}>  
             <Text  style = {styles.GameTitle}>{handleNome(data.item.name ?? '-')}</Text>
-            <Pressable style = {styles.button}  onPress={()=> navigation.navigate('GameFocused',data.item)}>
+            {/* <Pressable style = {styles.button}  onPress={()=> navigation.navigate('GameFocused',data.item)}>
               <Text style={{color: '#1470d9'}}>More Info</Text>
-            </Pressable>
+            </Pressable> */}
               <Text  style = {styles.Genres}>Genre : {data.item.genres.map((item,index,data) => { return( index + 1 === data.length ? item.name : item.name+ ", " )}) ?? ' - '}</Text>
               <Text  style = {styles.Genres}>Release Date : {data.item.release_dates[0].human ?? '-'}</Text>  
               </View>

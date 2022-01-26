@@ -108,7 +108,10 @@ const styles = StyleSheet.create({
       width: 'auto',
       margin : 10 , 
       alignItems : 'center' , 
-      justifyContent : 'center'
+      justifyContent : 'center',
+      backgroundColor:'#cfcbc8',
+      borderWidth: 2, 
+      borderColor: '#696765',
     },
     textStyle: {
       color: "white",
