@@ -47,33 +47,33 @@ export default function Profile({route , navigation}){
             
             <View style={styles.profileEmail}>
                 <Ionicons name={'mail-outline'} size={15} color={"black"} />
-                <Text style={{marginLeft:5}}>{Profile.email}</Text>
+                <Text style={{marginLeft:5,color:'white'}}>{Profile.email}</Text>
             </View>
 
             <View style={styles.containerNameInfo}>
 
                 <View style={styles.containerName}>
                     <Ionicons name={'person-outline'} size={30} color={"black"} />
-                    <Text style={{fontSize:12}}>Nome</Text>
-                    <Text style={{fontSize:25}}>{Profile.given_name}</Text>
+                    <Text style={{fontSize:12,color:'white'}}>Nome</Text>
+                    <Text style={{fontSize:25,color:'white'}}>{Profile.given_name}</Text>
                 </View>
 
                 <View style={styles.containerName}>
                     <Ionicons name={'information-circle-outline'} size={30} color={"black"} />
-                    <Text style={{fontSize:12}}>Sobrenome</Text>
-                    <Text style={{fontSize:25}}>{Profile.family_name}</Text>
+                    <Text style={{fontSize:12,color:'white'}}>Sobrenome</Text>
+                    <Text style={{fontSize:25,color:'white'}}>{Profile.family_name}</Text>
                 </View>
             </View>
             
             <View style={styles.containerLocale}>
                 <Ionicons name={'location-outline'} size={30} color={"black"} />
-                <Text>Localidade do Perfil do Usuário : {Profile.locale}</Text>
+                <Text style={{color:'white'}}>Localidade do Perfil do Usuário : {Profile.locale}</Text>
             </View>
             
             <View style={styles.containerButton}>
                 <Pressable style={{flexDirection:'row',alignItems:'center'}} onPress={()=>{ navigation.navigate("Login")}}>
                     <Ionicons name={'power'} size={30} color={"black"} />
-                    <Text style={{marginLeft:4}}>Desconectar</Text>
+                    <Text style={{marginLeft:4,color:'white'}}>Desconectar</Text>
                 </Pressable>
             </View>
         </View>
