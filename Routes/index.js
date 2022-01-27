@@ -5,11 +5,12 @@ import GiveawayFocused from "../Pages/GiveawayFocused";
 import SuccessPage from "../Pages/SuccessPage"
 import Login from '../Pages/Login'
 import SignUp from '../Pages/SignUp'
+import DealFocused from '../Pages/Home/DealFocused'
 import React from "react";
 import ScreenshotFocused from '../Pages/GameFocused/ScreenshotFocused'
 import GameFocused from "../Pages/GameFocused";
 import Profile from "../Pages/Profile";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer  , DarkTheme} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -55,7 +56,7 @@ function Tabs ({route , navigation}) {
     </Tab.Navigator>)
 }
     return(
-    <NavigationContainer>
+    <NavigationContainer theme={DarkTheme}>
         <Stack.Navigator screenOptions={{ modalPresentationStyle: 'fullScreen' ,presentation: 'card' , headerShown: false  }}>
             <Stack.Group screenOptions={{ modalPresentationStyle: 'fullScreen' ,presentation: 'transparentModal' , headerShown: false  }}>
               <Stack.Screen name="Login" component={Login}/>
@@ -66,6 +67,7 @@ function Tabs ({route , navigation}) {
             <Stack.Screen name="Tabs" component={Tabs}/>
             <Stack.Screen name="GameFocused" component={GameFocused}/>
             <Stack.Screen name="GiveawayFocused" component={GiveawayFocused}/>
+            <Stack.Screen name="DealFocused" component={DealFocused} />
           </Stack.Navigator>
     </NavigationContainer>
     )
