@@ -52,7 +52,7 @@ export default function DealFocused({route,navigation}){
           });
       }, []);
     
-    return (
+    return ( 
         <SafeAreaView style={{flex:1,marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center',backgroundColor:'#192428'}}> 
             {!loading && <LoadingView/>}
                 <View style={{width:'100%',height:253,backgroundColor:'red'}} >
