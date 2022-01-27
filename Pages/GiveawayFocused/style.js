@@ -1,6 +1,18 @@
 import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
+  button: {
+    borderRadius: 10,
+    padding: 13,
+    marginBottom : 20,
+    width: 'auto',
+    margin : 10 , 
+    alignItems : 'center' , 
+    justifyContent : 'center',
+    backgroundColor:'#cfcbc8',
+    borderWidth: 2, 
+    borderColor: '#696765',
+  },
     containerLeave : window => ({
         width : window.width * 0.85,
         alignItems:'flex-end',

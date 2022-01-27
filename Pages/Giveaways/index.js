@@ -2,7 +2,26 @@ import { Text ,View, FlatList , useWindowDimensions , ActivityIndicator , Image 
 import React, { useEffect, useState } from "react";
 import apiGiveaway from "../../Services/apiGiveaway";
 import style from "./style";
-
+const filterTypes = [
+  {
+    label : 'PC' , key :'pc'
+  },
+  {
+    label : 'Xbox' , key :'pc'
+  },
+  {
+    label : 'PS4' , key :'pc'
+  },
+  {
+    label : 'Switch' , key :'pc'
+  },
+  {
+    label : 'Mobile' , key :'pc'
+  }
+]
+const createFilter = ()=>{
+  
+}
 
 const handleNome = (nome) => {
   return (nome?.length > 30 ? nome.substring(0,30) + '...' : nome);
