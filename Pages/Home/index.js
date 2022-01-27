@@ -8,6 +8,7 @@ import {
   useWindowDimensions , 
   Modal , 
   Pressable,
+  StatusBar,
   TouchableWithoutFeedback
 } 
   from 'react-native';
@@ -16,8 +17,10 @@ import api from '../../Services/api';
 import styles from './style';
 import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const supportedURL = "https://www.cheapshark.com/redirect?dealID=";
+
 
 const OpenURLButton = ({ url, children,deal }) => {
   const handlePress = useCallback(async () => {
@@ -33,30 +36,9 @@ const OpenURLButton = ({ url, children,deal }) => {
   return (<Pressable style = {styles.storeSelected} onPress={handlePress}><Text>{children}</Text></Pressable>);
 };
 
-const MemoizedList = React.memo(({resp,createCard,header,window }) => {
-  return (
-    <FlatList
-    removeClippedSubviews = {true}
-    initialNumToRender = {9}
-    showsVerticalScrollIndicator={false}
-    maxToRenderPerBatch = {9}
-    columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 , marginBottom : 10 , justifyContent : 'center' }}
-    data={resp}
-    renderItem={createCard}
-    keyExtractor={item => item.gameID}
-    numColumns={window.width > 600 ? 3 : 2}
-    ListHeaderComponent = {header}
-    />
-  )
-}, (prevProps, nextProps) => {
-  if (prevProps.resp === nextProps.resp) {
-      return true; // props are equal
-  } else {
-      return false; // props are not equal -> update the component
-  }
-})
 
-export default function Home(){
+
+export default function Home({navigation}){
 
     const window = useWindowDimensions();
     const [resp, setResp] = useState([]);
@@ -65,13 +47,44 @@ export default function Home(){
     const [valueLabelQuery, setValueLabelQuery] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
-    const [actionTriggered, setActionTriggered] = useState('');
-    const [inspecGame, setInspecGame] = useState([{}]);
-
-    const [changedStore , setStoreChange] = useState(false);
     const [changeGame , setChangedGame] = useState(false)
-    const [deals, setDeals] = useState([])
     const [filterSelected , setfilterSelected] = useState('Price');
+
+    const createCard = (data)=>{
+      return (
+        <View style={{margin:10, overflow: 'hidden',borderBottomLeftRadius: 15,borderBottomRightRadius: 15 }}>
+          <Pressable onPress={()=>navigation.navigate("DealFocused",data.item.gameID)}>
+            <Image style={{borderTopLeftRadius:15,borderTopRightRadius:15,resizeMode:'stretch',width:160,height:90}}source={{uri : data.item.thumb.replace("capsule_sm_120","capsule_616x353")}}></Image>
+            <LinearGradient style={{borderBottomRightRadius: 15,borderBottomLeftRadius: 15 , alignItems:'center',flexDirection:'row',justifyContent:'space-evenly',height:30 }} colors={['#0784b5', 'rgba(5,147,132,1)', 'rgba(5,147,132,1)','rgba(1,33,91,1)']}> 
+              <Text style={{color : 'orange',fontSize : 15}}>${data.item.salePrice}</Text>
+              <Text style={{fontSize:10,textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>${data.item.normalPrice}</Text>
+            </LinearGradient>
+          </Pressable>
+        </View>
+      )
+    }
+
+    const MemoizedList = React.memo(() => {
+      return (
+        <FlatList
+        removeClippedSubviews = {true}
+        initialNumToRender = {9}
+        showsVerticalScrollIndicator={false}
+        maxToRenderPerBatch = {9}
+        columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 , marginBottom : 10 , justifyContent : 'center' }}
+        data={resp}
+        renderItem={createCard}
+        keyExtractor={item => item.dealID}
+        numColumns={window.width > 600 ? 3 : 2}
+        />
+      )
+    }, (prevProps, nextProps) => {
+      if (prevProps.resp === nextProps.resp) {
+          return true; // props are equal
+      } else {
+          return false; // props are not equal -> update the component
+      }
+    })
 
     const onChangeSearch = (query) => 
     {
@@ -90,137 +103,38 @@ export default function Home(){
       return (nome?.length > 14 ? nome.substring(0,10) + '...' : nome);
     }
 
+    const LoadingView = ()=>{
+      return (
+        <View style={{position: "absolute",left: 0,right: 0,top: 0,bottom: 0,opacity: 0.7,backgroundColor: "#192428",justifyContent: "center",alignItems: "center",}}>
+            <ActivityIndicator size="small" color="#FFD700"/>
+        </View>
+        )
+    }
     useEffect(async () => {
       await api
-        .get("/deals?storeID="+storeSelected+"&title="+searchQuery+'&sortBy='+filterSelected)
+        .get("https://www.cheapshark.com/api/1.0/deals?storeID=1")
         .then((response) => {setResp(response.data) ;setLoading(true)})
         .catch((err) => {
           console.error("ops! ocorreu um erro" + err);
         });
-    }, [storeSelected,searchQuery,changedStore,filterSelected]);
+    }, []);
 
-    useEffect(async () => {
-      await api
-        .get("/games?id="+inspecGame.gameID)
-        .then((response) => {setDeals(response.data.deals) ;setLoading(true)})
-        .catch((err) => {
-          console.error("ops! ocorreu um erro" + err);
-        });
-    }, [changeGame]);
-
-    const createCards = (data) => {
-      return(
-          <Pressable style = {styles.card}  onPress={()=>{setChangedGame(!changeGame),setInspecGame(data.item);setActionTriggered('Games');setModalVisible(!modalVisible)}}>   
-            <Image  style = {styles.tinyLogo} source={{uri : data.item.thumb ?? '-'}}></Image>
-            <Text  style = {styles.GameTitle}>{handleNome(data.item.title) ?? '-'}</Text> 
-            <Text  style = {styles.SalesPrice}> {(data.item.salePrice ?? '-') == '0.00' ? 'Free' : '$'+(data.item.salePrice ?? '-') }</Text>  
-            <Text  style = {styles.NormalPrice}> ${data.item.normalPrice ?? '-'}</Text>
-          </Pressable>
-      )
-    }
-
-  const stores = [
-      { key: 1 ,label: 'Steam' },
-      { key: 25, label: 'Epic Games' },
-      { key: 8, label: 'Origin' },
-      { key: 31, label: 'Blizzard Shop' },
-      { key: 13, label: 'Uplay'}
-  ];
-
-  const filters = [
-    { option: 'Deal Rating' },
-    { option: 'Title' },
-    { option: 'Savings' },
-    { option: 'Price' },
-    { option: 'Reviews'},
-    { option: 'Release'},
-    { option: 'recent'}
-];
-
-    const Header = () => (
-      <View style = {{flex : 1 , alignItems : 'center',flexDirection:'row', justifyContent:'center'}}> 
-        <Pressable onPress={()=>{setModalVisible(true);setActionTriggered('Stores')}} style={styles.button}>
-          <Text key ={stores.find(x => x.key === storeSelected).key}>Store : {stores.find(x => x.key === storeSelected).label}</Text>
-        </Pressable>
-        <Pressable onPress={()=>{setModalVisible(true);setActionTriggered('Filter')}} style={styles.button}>
-          <Text>Filter By : {filters.find(x => x.option == filterSelected).option}</Text>
-        </Pressable>
-      </View>
-    );
     return (
-      <View style={styles.container, {flex: 1}}>
-      <SafeAreaView style={styles.container}> 
+      <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center',backgroundColor:'#192428'}}> 
           <Searchbar
-                style = {{width:window.width/1.2 , borderRadius : 20 , marginBottom : 30 , marginTop : 30}}
+                style = {{width:window.width/1.2 , borderRadius : 20 , marginBottom : 30 , marginTop: StatusBar.currentHeight + 140}}
                 placeholder="Search"
                 onChangeText={onChangeSearch}
                 onSubmitEditing = {() => setSearchQuery(valueLabelQuery)}
                 onIconPress = {() => setSearchQuery(valueLabelQuery)}
                 value={valueLabelQuery}
               />
+              <View>
+              {!loading && <LoadingView/>}
+                <MemoizedList resp={resp}/>
+              </View>
        </SafeAreaView>
 
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
-              }}
-              >
-                
-            <View style={styles.centeredView}>
-              <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
-                <View style={styles.modalOverlay} />
-              </TouchableWithoutFeedback>
-              <View style={styles.modalView}>
-                {
-                  actionTriggered === 'Stores' ? (
-                    stores.map((store , index) => {return (
-                    <Pressable  key={index} onPress={()=>{setStoreChange(!changedStore); setModalVisible(!modalVisible); setStore(store.key); setLoading(false)}} style={styles.button}>
-                        <Text>{store.label}</Text>
-                    </Pressable>
-                    )})) 
-                    : 
-                    (
-                      actionTriggered ==='Filter' ? 
-                      (
-                        filters.map((filter , index) => {return (
-                          <Pressable  key={index} onPress={()=>{setStoreChange(!changedStore); setModalVisible(!modalVisible); setfilterSelected(filter.option); setLoading(false)}} style={styles.button}>
-                              <Text>{filter.option}</Text>
-                          </Pressable>)})
-                      ) 
-                      : 
-                        (
-                        <View style={{justifyContent :'center',alignItems:'center'}}>
-                          <Image style={[styles.tinyLogo,styles.selectGame]} source={{uri : inspecGame.thumb ?? '-'}}></Image>
-                          <Text  style = {[styles.GameTitle,styles.selectGame]}>{(inspecGame.title) ?? '-'}</Text> 
-                          <Text  style = {[styles.SalesPrice,styles.selectGame]}> ${inspecGame.salePrice ?? '-'}</Text>  
-                          <Text  style = {styles.NormalPrice}> ${inspecGame.normalPrice ?? '-'}</Text>
-                          <OpenURLButton url={supportedURL} deal = {inspecGame.dealID}> ${inspecGame.salePrice ?? '-'} on {stores.find(x => x.key == inspecGame.storeID)?.label}</OpenURLButton>
-                          
-                          {deals.map((deal , index)=>{stores.map((store)=>{ 
-                            store.key == deal.storeID && deal.storeID != inspecGame.storeID ? (
-                            <OpenURLButton url={supportedURL} deal = {deal.dealID}> ${deal.salePrice ?? '-'} on {stores.find(x => x.key == deal.storeID)?.label}</OpenURLButton>
-                          ) 
-                          : (
-                            <></>
-                          )}) })}
-                          </View>
-                        )
-                    )
-                }
-              </View>
-            </View>
-          </Modal>
 
-        {loading ? (
-          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginBottom : '20%', height: '100%',paddingBottom:180}}>
-            <MemoizedList resp={resp} createCard={createCards} header={Header} window = {window}/>
-           </View>
-          ) : 
-          (<View style={styles.loadingView}><ActivityIndicator size={60} color={"#424242"} /></View>) 
-        }
-        </View>
   );
 }
