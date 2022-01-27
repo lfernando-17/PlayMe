@@ -16,7 +16,7 @@ const OpenURLButton = ({ url, children }) => {
     }
   }, [url]);
 
-  return (<Pressable style={{marginBottom:10}} onPress={handlePress}><Text style = {{color:'#1470d9'}}>{children}</Text></Pressable>);
+  return (<Pressable style={style.button} onPress={handlePress}><Text style = {{color:'#1470d9'}}>{children}</Text></Pressable>);
 };
 
 export default function GiveawayFocused({route , navigation}) {

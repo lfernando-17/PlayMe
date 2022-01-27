@@ -44,7 +44,7 @@ export default function GameFocused({route , navigation}) {
             <Pressable onPress={()=>
                 getGameInfo(data.item.id)
               }>
-              <Text style={{marginBottom : 5,textAlign:'center'}}>{data.item.name}</Text>
+              <Text style={{marginBottom : 5,textAlign:'center',color:'white'}}>{data.item.name}</Text>
               <Image  style={style.similarGames(window)} source={{uri : "https:"+(data.item.cover?.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image> 
             </Pressable>
           </View>
@@ -64,10 +64,10 @@ const renderScreenshot = (data,window) => {
 
   return (
     <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
-      <ScrollView>
+      <ScrollView >
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
           
-          <View style = {style.containerLeave(window)}>
+          <View style = {style.containerLeave(window)} >
             <Pressable onPress={()=> navigation.goBack()}>
                 <Ionicons name={'close-circle-outline'} size={30} color={'#1470d9'} />
               </Pressable> 
@@ -77,13 +77,13 @@ const renderScreenshot = (data,window) => {
 
             <Image  style={style.Logo(window)} source={{uri : "https:"+(data.cover?.url.replace("t_thumb","t_cover_big") ?? "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg")}}></Image>  
             
-            <View style = {{width:'50%',justifyContent : 'center', alignItems : 'center'}}>
-              <Text style={{ textAlign: 'center',}}>{data.name}</Text>
+            <View style = {{width:'40%',justifyContent : 'center', alignItems : 'center'}}>
+              <Text style={{ textAlign: 'center',color:'white'}}>{data.name}</Text>
             </View>
           </View>
           
           
-            <Text style ={{textAlign:'center',margin : 20}}>{data.summary}</Text>
+            <Text style ={{textAlign:'center',margin : 20,color:'white'}}>{data.summary}</Text>
           
           <Pressable onPress={()=>navigation.navigate("ScreenshotFocused",data.screenshots)}>
             <FlatList
@@ -96,7 +96,7 @@ const renderScreenshot = (data,window) => {
               />
           </Pressable>
 
-            <Text style= {{margin : 20}}>Similar Games : </Text>
+            <Text style= {{margin : 20,color:'white'}}>Similar Games : </Text>
 
             <FlatList
               style={{flexGrow: 0}}
