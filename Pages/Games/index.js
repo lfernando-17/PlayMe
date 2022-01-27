@@ -3,15 +3,17 @@ import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar,Pressable , I
 import { ActivityIndicator } from 'react-native-paper';
 import apiGames from '../../Services/apiGames';
 import styles from './style';
-import ProgressCircle from 'react-native-progress-circle'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Searchbar } from 'react-native-paper';
+import Stars from 'react-native-stars';
+import { LinearGradient } from 'expo-linear-gradient';
+
 const MemoizedList = React.memo(({resp,createCard,window,navigation,offset,setOffSet}) => {
   return (
     <FlatList
     removeClippedSubviews = {true}
     initialNumToRender = {3}
     maxToRenderPerBatch = {3}
-    contentContainerStyle={{right:5}}
     showsVerticalScrollIndicator={false}
     data={resp}
     renderItem={(data)=>createCard(data,window,{navigation})}
@@ -43,32 +45,36 @@ const handleNome = (nome) => {
 
 const createCards = (data,window,{navigation}) => {
   return(
-      <Pressable style = {styles.card(window)}  onPress={()=>navigation.navigate('GameFocused',data.item)}>
-        <View style={styles.containerRating(window)}>
-        <ProgressCircle
-              percent={data.item.rating ?? '0'}
-              radius={window.width > 600 ? 40 : 20 }
-              borderWidth={8}
-              color={data.item.rating > 80 ? ("#0bc908") : (data.item.rating > 50 ? "#cfde00" : "#e32609") }
-              shadowColor="#999"
-              bgColor="#fff"
-              >
-                <Text style={window.width > 600 ? 20 : 10 }>{parseInt(data.item.rating ?? '')}</Text>
-              </ProgressCircle>
-          </View>
-        <View style = {styles.containerOfAllCard}> 
-          <View style = {styles.containerIcon(window)}>
-            <Image  style={styles.tinyLogo(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image></View> 
-          <View style = {styles.containerContenty}>  
-            <Text  style = {styles.GameTitle}>{handleNome(data.item.name ?? '-')}</Text>
-            {/* <Pressable style = {styles.button}  onPress={()=> navigation.navigate('GameFocused',data.item)}>
-              <Text style={{color: '#1470d9'}}>More Info</Text>
-            </Pressable> */}
-              <Text  style = {styles.Genres}>Genre : {data.item.genres.map((item,index,data) => { return( index + 1 === data.length ? item.name : item.name+ ", " )}) ?? ' - '}</Text>
-              <Text  style = {styles.Genres}>Release Date : {data.item.release_dates[0].human ?? '-'}</Text>  
-              </View>
+    <View style={{flexDirection:'row',alignItems:'center', marginVertical: 30, paddingHorizontal: 10}}>
+      <View style = {styles.containerIcon(window)}>
+            <Image  style={styles.tinyLogo(window)} source={{uri : "https:"+(data.item.cover.url.replace("t_thumb","t_cover_big") ?? '-')}}></Image>
         </View> 
-      </Pressable>
+
+        <LinearGradient colors={['#0784b5', 'rgba(5,147,132,1)', 'rgba(5,147,132,1)','rgba(1,33,91,1)']}  style = {styles.card(window)}>
+          <Pressable  onPress={()=>navigation.navigate('GameFocused',data.item)}>
+          <View style = {styles.containerContenty}>
+            <View style = {styles.containerOfAllCard}>   
+              <Text  style = {styles.GameTitle}>{handleNome(data.item.name ?? '-')}</Text>
+                <Text  style = {styles.Genres}>Genre : {data.item.genres.map((item,index,data) => { return( index + 1 === data.length ? item.name : item.name+ ", " )}) ?? ' - '}</Text>
+                <Text  style = {styles.Genres}>Release Date : {data.item.release_dates[0].human ?? '-'}</Text>  
+            </View>
+            <View style={{alignItems:'center'}}>
+            <Stars
+              display={data.item.rating / 20 ?? '0'}
+              spacing={8}
+              count={5}
+              starSize={40}
+              fullStar= {<Ionicons name={'star'} size={15} color={"black"} />}
+              emptyStar= {<Ionicons name={'star-outline'} size={15} color={"black"} />}
+              halfStar={<Ionicons name={'star-half-outline'} size={15} color={"black"} />}/>
+              
+        </View>
+          </View> 
+        </Pressable>
+      </LinearGradient>
+    </View>
+    
+      
   )
 }
 
@@ -112,7 +118,7 @@ export default function Games({navigation}) {
   }, [skip,searchQuery])
 
   return (
-      <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
+      <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center',backgroundColor:'#192428'}}>
         <Searchbar
                 style = {{width:window.width/1.2 , borderRadius : 20 , marginBottom : 30 , marginTop : 30}}
                 placeholder="Search"
@@ -125,7 +131,7 @@ export default function Games({navigation}) {
               />
       {loading ?
         (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{flex:1, alignItems: 'center', justifyContent: 'center' }}>
           <MemoizedList setOffSet = {setSkip} offset = {skip} request = {requestAPI} setResp={setResp} resp={resp} createCard = {createCards}  window = {window} navigation = {navigation} />
         </View>
         )

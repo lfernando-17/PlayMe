@@ -2,63 +2,44 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   containerRating : window => ({
-    width : window.width * 0.85,
+    position:'absolute',
     alignItems:'flex-end',
-    marginBottom : 10,
-    marginTop : 15,
+    top:-20
   }),
-  button: {
-    borderRadius: 10,
-    padding: 13,
-    marginBottom : 10,
-    elevation: 2,
-    width: 'auto',
-    margin : 10 , 
-    alignItems : 'center' , 
-    justifyContent : 'center'
-  },
   containerOfAllCard : {
-    flexDirection : 'row',
     justifyContent : 'space-evenly',
+    alignItems:'center'
   },
   containerIcon : window =>( {
     alignItems : 'center',
     justifyContent:'center',
-    height : (window.width > 600 ? 180 : 120),
-    width : (window.width > 600 ? 180 : 120) , 
-    marginLeft : 15,
-    marginRight: 10
   }),
   containerContenty : {
-    flex : 1 ,
     alignItems : 'center',
     justifyContent :'center',
   },
   tinyLogo:  window =>( {
     width: (window.width > 600 ? 180 : 120),
-    height: (window.width > 600 ? 180 : 120),
+    height: (window.width > 600 ? 180 : 160),
     borderRadius : 20,
   }), 
   Genres: {
     marginVertical : 10,
-    color : 'black',
+    color : 'white',
     fontSize : 12,
     margin : 5,
     textAlign : 'center'
   },
   GameTitle: {
-    color : 'black',
+    color : 'white',
     fontSize : 20,
   },
   card: window => ({
-    margin : 10,
-    marginLeft : 19,
-    marginTop : 30,
+    borderRadius:5,
+    justifyContent:'center',
     alignItems : 'center',
-    width: window.width * 0.9,
-    height: 240,
-    backgroundColor : 'white',
-    borderRadius : 20,
+    width: '65%',
+    height: 140,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
