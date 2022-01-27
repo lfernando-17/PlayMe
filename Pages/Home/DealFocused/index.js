@@ -53,13 +53,13 @@ export default function DealFocused({route,navigation}){
       }, []);
     
     return (
-        <SafeAreaView style={{marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center',backgroundColor:'#192428'}}> 
+        <SafeAreaView style={{flex:1,marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center',backgroundColor:'#192428'}}> 
             {!loading && <LoadingView/>}
-                <View style={{style:2,width:'100%',backgroundColor:'red'}} >
-                    <Pressable style={{position:'absolute',top:10,right:30,zIndex:20}} onPress={()=> navigation.goBack()}>
-                        <Ionicons name={'close-circle-outline'} size={30} color={'#1470d9'} />
+                <View style={{width:'100%',height:253,backgroundColor:'red'}} >
+                    <Pressable style={{position:'absolute',top:10,right:5,zIndex:20}} onPress={()=> navigation.goBack()}>
+                        <Ionicons name={'close-circle-outline'} size={30} color={'black'} />
                     </Pressable>
-                    <Image style={{width:'100%',height:353}}source={{uri : response?.info.thumb.replace("capsule_sm_120","capsule_616x353")}}></Image>
+                    <Image style={{resizeMode:'stretch',width:400,height:253}}source={{uri : response?.info.thumb.replace("capsule_sm_120","capsule_616x353")}}></Image>
                 </View>
 
                 <View style={{flex:2}}>
