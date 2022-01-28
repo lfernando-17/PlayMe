@@ -36,7 +36,16 @@ const OpenURLButton = ({ url, children,deal }) => {
   return (<Pressable style = {styles.storeSelected} onPress={handlePress}><Text>{children}</Text></Pressable>);
 };
 
+const isValid = async (url)=> {
+  await fetch(url)
+      .then((resp)=>{
+        if (resp.status == 404) {
+          return false;
+        }
+        return true;
+      })
 
+}
 
 export default function Home({navigation}){
 
@@ -50,11 +59,12 @@ export default function Home({navigation}){
     const [changeGame , setChangedGame] = useState(false)
     const [filterSelected , setfilterSelected] = useState('Price');
 
-    const createCard = (data)=>{
+    const createCard =  (data)=>{
+
       return (
         <View style={{margin:10, overflow: 'hidden',borderBottomLeftRadius: 15,borderBottomRightRadius: 15 }}>
           <Pressable onPress={()=>navigation.navigate("DealFocused",data.item.gameID)}>
-            <Image style={{borderTopLeftRadius:15,borderTopRightRadius:15,resizeMode:'stretch',width:160,height:90}}source={{uri : data.item.thumb.replace("capsule_sm_120","capsule_616x353")}}></Image>
+            <Image style={{borderTopLeftRadius:15,borderTopRightRadius:15,resizeMode:'stretch',width:160,height:90}}   source={{uri : isValid(data.item.thumb.replace("capsule_sm_120","capsule_616x353")) ? data.item.thumb.replace("capsule_sm_120","capsule_616x353") :data.item.thumb }}></Image>
             <LinearGradient style={{borderBottomRightRadius: 15,borderBottomLeftRadius: 15 , alignItems:'center',flexDirection:'row',justifyContent:'space-evenly',height:30 }} colors={['#0784b5', 'rgba(5,147,132,1)', 'rgba(5,147,132,1)','rgba(1,33,91,1)']}> 
               <Text style={{color : 'orange',fontSize : 15}}>${data.item.salePrice}</Text>
               <Text style={{fontSize:10,textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>${data.item.normalPrice}</Text>
