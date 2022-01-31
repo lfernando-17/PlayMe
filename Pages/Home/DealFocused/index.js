@@ -3,6 +3,7 @@ import { View , Image , SafeAreaView ,Pressable, Text , Linking, StatusBar ,useW
 import api from '../../../Services/api';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
+import ImageSupreme from '../ImageSupreme';
 const url = "https://www.cheapshark.com/redirect?dealID=";
 
 export default function DealFocused({route,navigation}){
@@ -17,7 +18,7 @@ export default function DealFocused({route,navigation}){
         return (
             <Pressable onPress={()=>Linking.openURL(url+deal.item.dealID)} style={{margin:20,flexDirection:'row',width:window.width - 50,alignItems:'center',justifyContent:'space-between'}}>
                 <View style={{flexDirection:'row',alignItems:'center'}}>
-                    <Image style={{resizeMode:'stretch',width:50,height:50,opacity:0.9}}source={{uri : "https://www.cheapshark.com/"+store?.images.logo }}></Image>
+                    <Image style={{resizeMode:'stretch',width:50,height:50,opacity:0.9}} source={{uri : "https://www.cheapshark.com/"+store?.images.logo }}></Image>
                     <Text style={{color:"white" , marginLeft:20}}>{store?.storeName}</Text>
                 </View>
 
@@ -81,10 +82,11 @@ export default function DealFocused({route,navigation}){
             {!loading && <LoadingView/>}
                 <View style={{width:'100%',height:253}} >
                     <Pressable style={{position:'absolute',top:10,right:5,zIndex:20}} onPress={()=> navigation.goBack()}>
-                        <Ionicons name={'close-circle-outline'} size={30} color={'black'} />
+                        <Ionicons name={'close-circle-outline'} size={30} color={'white'} />
                     </Pressable>
-                    <Image style={{resizeMode:'stretch',width:400,height:223,opacity:0.9}}source={{uri : response?.info.thumb.replace("capsule_sm_120","capsule_616x353")}}></Image>
-                </View>
+                    {response?.info.thumb !=  undefined ? <ImageSupreme style={{resizeMode:'stretch',width:400,height:223,opacity:0.9}} urlTrue={response?.info.thumb.replace("capsule_sm_120","capsule_616x353")} urlError={response?.info.thumb}> </ImageSupreme>
+                     : <></>}
+                     </View>
 
                 <View style={{alignItems:'center',justifyContent:'center'}}>
                     <Text style={{color:'white',fontSize:25,marginLeft:10}}>{response?.info.title}</Text>
