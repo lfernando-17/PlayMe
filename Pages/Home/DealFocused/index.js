@@ -34,7 +34,7 @@ export default function DealFocused({route,navigation}){
     useEffect(async () => {
         await api
           .get("https://www.cheapshark.com/api/1.0/stores")
-          .then((response) => {setStores(response.data) ;})
+          .then((response) => {setStores(response.data) })
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
@@ -71,7 +71,7 @@ export default function DealFocused({route,navigation}){
     useEffect(async () => {
         await api
           .get(`https://www.cheapshark.com/api/1.0/games?id=${gameID}`)
-          .then((response) => {setResp(response.data) ;setLoading(true)})
+          .then((response) => {setResp(response.data) ;setLoading(true);})
           .catch((err) => {
             console.error("ops! ocorreu um erro" + err);
           });
@@ -100,7 +100,7 @@ export default function DealFocused({route,navigation}){
                 </View>
 
                 <View style={{flex:2}}>
-                    {response?.deals !== null ? 
+                    {response?.deals !== null && response?.deals.length > 1 ? 
                     (
                     <>
                         <Text style={{color:'white',fontSize:25,marginLeft:10}}>Deals</Text>
@@ -108,9 +108,14 @@ export default function DealFocused({route,navigation}){
                     </>
                     )
                     : 
-                    <>
-                    <Text style={{color:'white'}}>No more deals Found</Text>
-                    </>
+                    (
+                    <View style={{flex:1,justifyContent:'center'}}>
+                        <LinearGradient style={{flexDirection:'row',marginVertical:15,borderRadius:8,backgroundColor:'white',width:200,height:50,alignItems:'center',justifyContent:'center'}} colors={['#0784b5', 'rgba(1,33,91,1)', 'rgba(1,33,91,1)','rgba(1,33,91,1)']}> 
+                               <Ionicons name={'sad'} size={30} color={'white'} />
+                               <Text style={{color:'white',marginLeft:10}}>No more deals Found</Text>
+                        </LinearGradient>
+                    </View>
+                    )
                     }
                 </View>
      </SafeAreaView>

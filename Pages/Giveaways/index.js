@@ -2,6 +2,8 @@ import { Text ,View, FlatList , useWindowDimensions , ActivityIndicator , Image 
 import React, { useEffect, useState } from "react";
 import apiGiveaway from "../../Services/apiGiveaway";
 import style from "./style";
+import { LinearGradient } from 'expo-linear-gradient';
+
 const filterTypes = [
   {
     label : 'PC' , key :'pc'
@@ -19,24 +21,28 @@ const filterTypes = [
     label : 'Mobile' , key :'pc'
   }
 ]
-const createFilter = ()=>{
-  
-}
+
+
 
 const handleNome = (nome) => {
   return (nome?.length > 30 ? nome.substring(0,30) + '...' : nome);
 }
 
 const createCards = (data,{navigation}) => {
-    return( 
-        <Pressable style={style.card} onPress={()=>navigation.navigate('GiveawayFocused',data.item)}>   
-          <Image style = {style.tinyLogo} source={{uri : data.item.thumbnail ?? '-'}}></Image>
-          <Text style={{textAlign:'center'}}>{handleNome(data.item.title) ?? '-'}</Text> 
-          <Text  style = {style.SalesPrice}> Free </Text>  
-          <Text  style = {style.NormalPrice}>{data.item.worth ?? '-'}</Text>
-        </Pressable>
+    return(
+      <LinearGradient style={{width:320,height:230,alignItems:'center',justifyContent:'center',marginVertical:30,borderRadius:8}} colors={['rgba(1,33,91,1)', 'rgba(1,33,91,1)', '#0784b5','rgba(1,33,91,1)']}>                  
+          <Pressable  onPress={()=>navigation.navigate('GiveawayFocused',data.item)}>   
+            <Image style = {{width:300,height:150,resizeMode:'stretch',borderTopLeftRadius:8,borderTopRightRadius:8}} source={{uri : data.item.thumbnail ?? '-'}}></Image>
+            <View style={{overflow: 'hidden',borderBottomLeftRadius: 8,borderBottomRightRadius: 8 }}>
+              <LinearGradient style={{height:50,alignItems:'center',justifyContent:'center'}} colors={['#0784b5', 'rgba(5,147,132,1)', 'rgba(5,147,132,1)','rgba(1,33,91,1)']}>                 
+                <Text style={{textAlign:'center',color:'white'}}>{handleNome(data.item.title) ?? '-'}</Text> 
+              </LinearGradient>
+            </View>
+          </Pressable>
+        </LinearGradient>
     )
   }
+
 
 const MemoizedList = React.memo(({resp,header,window,navigation}) => {
     return (
@@ -61,8 +67,6 @@ const MemoizedList = React.memo(({resp,header,window,navigation}) => {
     }
   })
 
-
-
 export default function Giveaways({navigation}){
     const [resp , setResp] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -81,7 +85,7 @@ export default function Giveaways({navigation}){
     return (
         <>
         {loading ? (
-          <View style={{backgroundColor:'#E9E9E9',alignItems : 'center',marginTop:30,marginBottom : '20%', height: '100%'}}>
+          <View style={{backgroundColor:'#192428',alignItems : 'center',marginBottom : '20%', height: '100%'}}>
             <MemoizedList resp={resp}  window = {window} navigation = {navigation}/>
            </View>
           ) : 
