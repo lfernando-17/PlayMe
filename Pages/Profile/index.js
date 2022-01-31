@@ -38,12 +38,12 @@ export default function Profile({route , navigation}){
         <View style={styles.containerAll}>
 
             <View style ={styles.containerProfileData}>
-                <Text style={{fontSize:28}}>Perfil</Text>
-                <Text>Dados da sua conta</Text>
+                <Text style={{fontSize:28,color:'white'}}>Perfil</Text>
+                <Text style={{color:'white'}}>Dados da sua conta</Text>
             </View>
             
             <Image  style={styles.profileImage} source={{uri : Profile.picture}}></Image>
-            <Text style={{marginTop:20,fontSize:30}}>{Profile.name}</Text>
+            <Text style={{marginTop:20,fontSize:30,color:'white'}}>{Profile.name}</Text>
             
             <View style={styles.profileEmail}>
                 <Ionicons name={'mail-outline'} size={15} color={"black"} />
@@ -53,26 +53,26 @@ export default function Profile({route , navigation}){
             <View style={styles.containerNameInfo}>
 
                 <View style={styles.containerName}>
-                    <Ionicons name={'person-outline'} size={30} color={"black"} />
+                    <Ionicons name={'person-outline'} size={30} color={"white"} />
                     <Text style={{fontSize:12,color:'white'}}>Nome</Text>
                     <Text style={{fontSize:25,color:'white'}}>{Profile.given_name}</Text>
                 </View>
 
                 <View style={styles.containerName}>
-                    <Ionicons name={'information-circle-outline'} size={30} color={"black"} />
+                    <Ionicons name={'information-circle-outline'} size={30} color={"white"} />
                     <Text style={{fontSize:12,color:'white'}}>Sobrenome</Text>
                     <Text style={{fontSize:25,color:'white'}}>{Profile.family_name}</Text>
                 </View>
             </View>
             
             <View style={styles.containerLocale}>
-                <Ionicons name={'location-outline'} size={30} color={"black"} />
+                <Ionicons name={'location-outline'} size={30} color={"white"} />
                 <Text style={{color:'white'}}>Localidade do Perfil do Usuário : {Profile.locale}</Text>
             </View>
             
             <View style={styles.containerButton}>
                 <Pressable style={{flexDirection:'row',alignItems:'center'}} onPress={()=>{ navigation.navigate("Login")}}>
-                    <Ionicons name={'power'} size={30} color={"black"} />
+                    <Ionicons name={'power'} size={30} color={"white"} />
                     <Text style={{marginLeft:4,color:'white'}}>Desconectar</Text>
                 </Pressable>
             </View>
