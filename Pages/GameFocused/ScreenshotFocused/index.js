@@ -11,10 +11,10 @@ export default function ScreenshotFocused({route,navigation}){
     }]
     return (
         <View style={{flex:1}}>
-            <Pressable style={{alignItems:'flex-end',backgroundColor:'black',position:'absolute'}}onPress={()=> navigation.goBack()}>
+            <Pressable style={{alignItems:'flex-end',position:'absolute',top:59,right:28}}onPress={()=> navigation.goBack()}>
                 <Ionicons name={'close-circle-outline'} size={30} color={'#1470d9'} />
             </Pressable>
-            <ImageViewer saveToLocalByLongPress={false} renderIndicator={()=>{}} imageUrls={image}/>
+            <ImageViewer style={{zIndex:-1}}saveToLocalByLongPress={false} renderIndicator={()=>{}} imageUrls={image}/>
         </View>     
     )
 }
