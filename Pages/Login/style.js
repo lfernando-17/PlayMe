@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 35 ,
         borderTopRightRadius : 35 ,
          backgroundColor:'white',
-         height : '65%',
+         height : '80%',
          width:'100%' , 
          alignItems:'center'
     },
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     containerWelcome : {
-        position:'absolute',
         marginTop:'30%',
         marginLeft:'10%',
         alignItems:'center',

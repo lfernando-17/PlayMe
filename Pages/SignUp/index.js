@@ -161,7 +161,7 @@ export default function SignUp({navigation}){
 
           <View style={styles.containerHeader}>
                 <Text style={styles.txtSignUp}>Sign Up !</Text>
-                <Pressable style={{zIndex:-1}}onPress={pickImage}>
+                <Pressable style={{zIndex:-1}} onPress={pickImage}>
                     <Image  style={styles.imageProfile} source={{uri : image }}></Image>
                     <View style={{position: 'absolute',right: 10,top: 42}}>
                     <Ionicons  name={"pencil-sharp"} size={20} color={"black"} />
@@ -204,8 +204,8 @@ export default function SignUp({navigation}){
                   {confirmpassword} onChange={setconfirmpassword} stylesInput={{marginLeft : 5,height:'100%',width:'100%'}}/>
               </View>
 
-              <View disabled={button} style={styles.containerEnter}>
-                <Pressable style={styles.pressableLogin} onPress={()=>signUp()}>
+              <View style={styles.containerEnter}>
+                <Pressable disabled={button} style={styles.pressableLogin} onPress={()=>signUp()}>
                   <Text>Enter</Text>
                 </Pressable>
 

@@ -24,14 +24,13 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 35 ,
         borderTopRightRadius : 35 ,
         backgroundColor:'white',
-        height : '68%',
+        height : '100%',
         width:'100%' ,
         alignItems:'center'
     },
     containerCard : {
         flex:1,
         alignItems:'center',
-        justifyContent:'flex-end'
     },
     imageProfile : {
         width : 120,
@@ -49,11 +48,9 @@ const styles = StyleSheet.create({
     },
     containerHeader : {
         zIndex:1,
-        position:'absolute',
-        marginTop:'20%',
-        marginLeft:'30%',
+        marginVertical:'10%',
         alignItems:'center',
-        justifyContent:'flex-end'
+        justifyContent:'center'
     },
     pressableImage : {
         marginHorizontal:10, 
