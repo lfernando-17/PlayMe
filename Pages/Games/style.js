@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
   tinyLogo:  window =>( {
     width: (window.width > 600 ? 180 : 120),
     height: (window.width > 600 ? 180 : 160),
-    borderRadius : 20,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
   }), 
   Genres: {
     marginVertical : 10,
@@ -35,11 +36,12 @@ const styles = StyleSheet.create({
     fontSize : 20,
   },
   card: window => ({
-    borderRadius:5,
     justifyContent:'center',
     alignItems : 'center',
     width: '65%',
-    height: 140,
+    height: 160,
+    borderTopRightRadius:10,
+    borderBottomRightRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

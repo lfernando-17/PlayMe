@@ -27,7 +27,7 @@ const style = StyleSheet.create({
     Logo:  window =>( {
         width: (window.width > 600 ? 180 : 340),
         height: (window.width > 600 ? 180 : 160),
-        borderRadius : 20,
+        borderRadius : 5,
         alignItems:'center',
         justifyContent:'center'
       }),

@@ -30,16 +30,14 @@ const handleNome = (nome) => {
 
 const createCards = (data,{navigation}) => {
     return(
-      <LinearGradient style={{width:320,height:230,alignItems:'center',justifyContent:'center',marginVertical:30,borderRadius:8}} colors={['rgba(1,33,91,1)', 'rgba(1,33,91,1)', '#0784b5','rgba(1,33,91,1)']}>                  
-          <Pressable  onPress={()=>navigation.navigate('GiveawayFocused',data.item)}>   
-            <Image style = {{width:300,height:150,resizeMode:'stretch',borderTopLeftRadius:8,borderTopRightRadius:8}} source={{uri : data.item.thumbnail ?? '-'}}></Image>
-            <View style={{overflow: 'hidden',borderBottomLeftRadius: 8,borderBottomRightRadius: 8 }}>
-              <LinearGradient style={{height:50,alignItems:'center',justifyContent:'center'}} colors={['#0784b5', 'rgba(5,147,132,1)', 'rgba(5,147,132,1)','rgba(1,33,91,1)']}>                 
+          <Pressable style={{margin:10}} onPress={()=>navigation.navigate('GiveawayFocused',data.item)}>   
+            <Image style = {{width:160,height:80,resizeMode:'stretch'}} source={{uri : data.item.thumbnail ?? '-'}}></Image>
+            <View style={{overflow: 'hidden' }}>
+              <LinearGradient style={{width:160,height:30,alignItems:'center',justifyContent:'center'}} colors={['#0784b5', 'rgba(5,147,132,1)', 'rgba(5,147,132,1)','rgba(1,33,91,1)']}>                 
                 <Text style={{textAlign:'center',color:'white'}}>{handleNome(data.item.title) ?? '-'}</Text> 
               </LinearGradient>
             </View>
           </Pressable>
-        </LinearGradient>
     )
   }
 
@@ -51,12 +49,13 @@ const MemoizedList = React.memo(({resp,header,window,navigation}) => {
       initialNumToRender = {9}
       showsVerticalScrollIndicator={false}
       maxToRenderPerBatch = {9}
-      columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 , marginBottom : 10 , justifyContent : 'center' }}
+      columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 , marginBottom : 10, justifyContent : 'center' }}
       data={resp}
       renderItem={(data)=>createCards(data,{navigation})}
       keyExtractor={item => item.id}
       numColumns={window.width > 600 ? 3 : 2}
       ListHeaderComponent = {header}
+      contentContainerStyle={{paddingBottom:60,marginTop:60}} 
       />
     )
   }, (prevProps, nextProps) => {

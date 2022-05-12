@@ -29,7 +29,7 @@ const style = StyleSheet.create({
       },
     loadingView : {
         flex : 1,
-        backgroundColor:'#E9E9E9',
+        backgroundColor:'#192428',
         alignItems : 'center',
         justifyContent : 'center'
       },

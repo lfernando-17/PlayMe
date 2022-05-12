@@ -13,11 +13,9 @@ const style = StyleSheet.create({
         margin : 5
     },
     Logo:  window =>( {
-        width: (window.width > 600 ? 180 : 180),
-        height: (window.width > 600 ? 180 : 180),
-        borderRadius : 20,
-        marginLeft : 20,
-        resizeMode:'center'
+        width: (window.width > 600 ? 180 : 250),
+        height: (window.width > 600 ? 180 : 200),
+        resizeMode:'stretch'
       }),
       similarGames : window =>( {
         width: (window.width > 600 ? 180 : 120),

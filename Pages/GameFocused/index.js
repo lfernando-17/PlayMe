@@ -19,9 +19,9 @@ export default function GameFocused({route , navigation}) {
     .post(link, fields,
     {
       headers: {
-          'Client-ID': 'f7wh9fp8o60qav6ym4znqy8hp4s6h1',
+          'Client-ID': '1xn6l1qtqgjd8zzmo9rbku3y7uqxj8',
           'Content-Type': 'text/plain',
-          'Authorization': 'Bearer emcopxz4lpds5uy8w7uq44f7cgjaqm' 
+          'Authorization': 'Bearer kzrz7qf4tafeacdfmv7lnv64ixw144' 
       }
     })
     .then((response) => {
@@ -54,10 +54,10 @@ export default function GameFocused({route , navigation}) {
 const renderScreenshot = (data,window) => {
   return (
     <View style ={{backgroundColor : '#070621' , height :(window.width > 600 ? 200 : 200) , justifyContent : 'center'}}>
+      {loading && <LoadingView/>}
       <Pressable onPress={()=>navigation.navigate("ScreenshotFocused",data.item.url)}>
         <Image onLoadStart = {()=>setLoading(true)} onLoadEnd={()=>setLoading(false)} style={style.screenshots(window)} source={{uri : "https:"+(data.item.url.replace("t_thumb","t_original") ?? '-')}}/>
       </Pressable>
-      {loading && <LoadingView/>}
     </View>
   )
 }
@@ -74,12 +74,8 @@ const renderScreenshot = (data,window) => {
           </View>
           
           <View style={{flexDirection:'row'}}>
-
             <Image  style={style.Logo(window)} source={{uri : "https:"+(data.cover?.url.replace("t_thumb","t_cover_big") ?? "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg")}}></Image>  
-            
-            <View style = {{width:'40%',justifyContent : 'center', alignItems : 'center'}}>
-              <Text style={{ textAlign: 'center',color:'white'}}>{data.name}</Text>
-            </View>
+          
           </View>
           
           

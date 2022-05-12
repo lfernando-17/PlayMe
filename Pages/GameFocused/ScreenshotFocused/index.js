@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function ScreenshotFocused({route,navigation}){
     var data = route.params;
-    data = "https:"+data.replace("t_thumb","t_original")
+    data = "https:"+data?.replace("t_thumb","t_original")
     const image = [{
         url : data
     }]

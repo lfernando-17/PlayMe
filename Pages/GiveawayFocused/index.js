@@ -24,33 +24,27 @@ export default function GiveawayFocused({route , navigation}) {
   const data = route.params;
 
   return (
-    <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
+    <SafeAreaView style={{flex: 1,backgroundColor:'#192428', marginTop: StatusBar.currentHeight || 0, alignItems: 'center', justifyContent: 'center'}}>
       <ScrollView>
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
           
           <View style = {style.containerLeave(window)}>
             <Pressable onPress={()=> navigation.goBack()}>
                 <Ionicons name={'close-circle-outline'} size={30} color={'#1470d9'} />
-              </Pressable> 
-            
+              </Pressable>  
           </View>
 
             <Image  style={style.Logo(window)} source={{uri : data.image }}></Image>  
             
             
-            <View style = {{ marginVertical : 20,width : '60%',justifyContent : 'center', alignItems : 'center'}}>
-              <Text style={{ textAlign: 'center',marginTop : 10 , fontSize : 18}}>{data.title}</Text>
-            </View>
-
-            <View  style={{ marginHorizontal : 20,marginVertical : 20,borderWidth: 1,borderColor: "black",borderRadius: 50,alignItems:'center',justifyContent:'center'}}>
-            <Text style ={{textAlign:'center',marginTop : 10}}>Description :  </Text>
-            <Text style ={{textAlign:'center',margin : 20}}>{data.description}</Text>
+            <View  style={{ marginHorizontal : 20,marginVertical : 20,alignItems:'center',justifyContent:'center'}}>
+              <Text style ={{textAlign:'center',color:'#c1bfbf',margin : 20}}>{data.description}</Text>
             </View>
 
 
-            <View  style={{ marginHorizontal : 20,marginVertical : 20,borderWidth: 1,borderColor: "black",borderRadius: 50,alignItems:'center',justifyContent:'center'}}>
-             <Text style ={{textAlign:'center',marginTop : 10}}>How to get your Key : </Text>
-            <Text style ={{textAlign:'center',margin : 20}}>{data.instructions}</Text>
+            <View  style={{ marginHorizontal : 20,marginVertical : 20}}>
+             <Text style ={{textAlign:'left',marginLeft : 20,marginTop : 10,color:'white',fontSize:20}}>Instructions : </Text>
+             <Text style ={{textAlign:'left',margin : 20,color:'#c1bfbf'}}>{data.instructions}</Text>
             </View>
             
             <Text style ={{textAlign:'center',margin : 20}}> Platforms : {data.platforms}</Text>

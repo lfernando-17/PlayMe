@@ -98,9 +98,9 @@ export default function Games({navigation}) {
     .post(link, fields,
     {
       headers: {
-          'Client-ID': 'f7wh9fp8o60qav6ym4znqy8hp4s6h1',
+          'Client-ID': '1xn6l1qtqgjd8zzmo9rbku3y7uqxj8',
           'Content-Type': 'text/plain',
-          'Authorization': 'Bearer emcopxz4lpds5uy8w7uq44f7cgjaqm' 
+          'Authorization': 'Bearer kzrz7qf4tafeacdfmv7lnv64ixw144' 
       }
     })
     .then((response) => {
